@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Poppins, Open_Sans } from 'next/font/google'
 import './globals.css'
-import Navbar from '@/components/shared/Navbar'
 
 const poppins = Poppins({ 
   subsets: ['latin'],
@@ -28,7 +27,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.variable} ${openSans.variable} font-open-sans`}>
-      <Navbar />
         {children}
       </body>
     </html>
