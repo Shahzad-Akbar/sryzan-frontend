@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import { 
   LayoutDashboard, 
   UtensilsCrossed, 
@@ -16,13 +15,19 @@ interface LeftSidebarProps {
   onToggle: () => void
 }
 
+const menuItems = [
+  { icon: <LayoutDashboard size={24} />, label: 'Dashboard', active: true },
+  { icon: <UtensilsCrossed size={24} />, label: 'Food Order' },
+  { icon: <Heart size={24} />, label: 'Favorite' },
+  { icon: <MessageSquare size={24} />, label: 'Message' },
+  { icon: <Clock size={24} />, label: 'Order History' },
+  { icon: <Receipt size={24} />, label: 'Bills' },
+  { icon: <Settings size={24} />, label: 'Setting' },
+]
+
 export function LeftSidebar({ isOpen, onToggle }: LeftSidebarProps) {
   return (
-    <div className={`${isOpen ? 'w-64' : 'w-20'} bg-white h-screen p-6 flex flex-col gap-4 relative transition-all duration-300`}>
-      <div className="flex items-center gap-2">
-        {isOpen && <Image src="/assets/images/logo/sryzan.svg" alt="sryzans" width={120} height={40} />}
-      </div>
-      
+    <div className={`${isOpen ? 'w-64' : 'w-20'} bg-white h-screen flex flex-col relative transition-all duration-300`}>
       <button 
         onClick={onToggle}
         className="absolute -right-4 top-10 bg-white p-2 rounded-full shadow-md hover:bg-gray-50 z-50"
@@ -30,36 +35,23 @@ export function LeftSidebar({ isOpen, onToggle }: LeftSidebarProps) {
         {isOpen ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
       </button>
       
-      <nav className="mt-8 space-y-2">
-          <button className="w-full flex items-center gap-3 px-4 py-3 bg-primary-2/10 text-primary-2 rounded-lg">
-            <LayoutDashboard size={24} />
-            Dashboard
+      <nav className="flex flex-col gap-2 p-4">
+        {menuItems.map((item, index) => (
+          <button
+            key={index}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all
+              ${item.active 
+                ? 'bg-primary-2 text-white' 
+                : 'text-neutral/70 hover:bg-gray-50'
+              }
+              ${!isOpen && 'justify-center px-2'}
+            `}
+          >
+            {item.icon}
+            {isOpen && <span>{item.label}</span>}
           </button>
-          <button className="w-full flex items-center gap-3 px-4 py-3 text-neutral/70 hover:bg-gray-50 rounded-lg">
-            <UtensilsCrossed size={24} />
-            Food Order
-          </button>
-          <button className="w-full flex items-center gap-3 px-4 py-3 text-neutral/70 hover:bg-gray-50 rounded-lg">
-            <Heart size={24} />
-            Favorite
-          </button>
-          <button className="w-full flex items-center gap-3 px-4 py-3 text-neutral/70 hover:bg-gray-50 rounded-lg">
-            <MessageSquare size={24} />
-            Message
-          </button>
-          <button className="w-full flex items-center gap-3 px-4 py-3 text-neutral/70 hover:bg-gray-50 rounded-lg">
-            <Clock size={24} />
-            Order History
-          </button>
-          <button className="w-full flex items-center gap-3 px-4 py-3 text-neutral/70 hover:bg-gray-50 rounded-lg">
-            <Receipt size={24} />
-            Bills
-          </button>
-          <button className="w-full flex items-center gap-3 px-4 py-3 text-neutral/70 hover:bg-gray-50 rounded-lg">
-            <Settings size={24} />
-            Setting
-          </button>
-        </nav>
+        ))}
+      </nav>
     </div>
   )
 }
