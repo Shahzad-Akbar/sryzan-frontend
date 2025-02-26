@@ -28,7 +28,7 @@ export default function Navbar() {
             ))}
           </div>
 
-          <Link href="/login">
+          <Link href="/auth/login">
             <button className="bg-primary-2 font-normal text-neutral-white px-6 py-2 rounded-full hover:opacity-90 transition-opacity">
               Login
             </button>

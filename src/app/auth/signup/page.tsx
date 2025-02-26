@@ -179,7 +179,7 @@ export default function SignupPage() {
             <p className="text-neutral/70">
               Already have an account?{" "}
               <Link
-                href="/login"
+                href="/auth/login"
                 className="text-secondary-1 hover:text-secondary-1"
               >
                 Login

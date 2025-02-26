@@ -22,7 +22,7 @@ export default function LoginPage() {
             <h1 className="text-primary-2 text-5xl font-bold">sryzans</h1>
           </Link>
         </div>
-        <div className="w-full mx-48 my-5 p-5">
+        <div className="w-full ml-20 my-5 py-5 px-20">
           <h2 className="text-40 font-poppins font-semibold text-neutral mb-2">
             Login
           </h2>
@@ -31,30 +31,40 @@ export default function LoginPage() {
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="block text-[#2D3047] mb-2">Email</label>
+            <div className="relative">
               <input
                 type="email"
                 placeholder="john.doe@gmail.com"
-                className="w-full px-6 py-4 rounded-[32px] border border-[#E5E7EB] focus:outline-none focus:border-primary-2 placeholder:text-[#666666]"
+                id="email"
+                className="w-full px-6 py-4 rounded-[32px] text-[#1C1B1F] placeholder:text-[#1C1B1F] border border-[#E5E7EB] focus:outline-none focus:border-primary-2 pt-4 pb-2"
               />
+              <label 
+                htmlFor="email" 
+                className="absolute left-6 top-0 text-sm text-[#1C1B1F] bg-white px-2 translate-y-[-50%]"
+              >
+                Email
+              </label>
             </div>
 
-            <div>
-              <label className="block text-[#2D3047] mb-2">Password</label>
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  className="w-full px-6 py-4 rounded-[32px] border border-[#E5E7EB] focus:outline-none focus:border-primary-2"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-6 top-1/2 -translate-y-1/2"
-                >
-                  {showPassword ? <EyeOff /> : <Eye />}
-                </button>
-              </div>
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                className="w-full px-6 py-4 rounded-[32px] text-[#1C1B1F] placeholder:text-[#1C1B1F] border border-[#E5E7EB] focus:outline-none focus:border-primary-2 pt-4 pb-2"
+              />
+              <label 
+                htmlFor="password" 
+                className="absolute left-6 top-0 text-sm text-[#1C1B1F] bg-white px-2 translate-y-[-50%]"
+              >
+                Password
+              </label>
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-6 top-1/2 -translate-y-1/2"
+              >
+                {showPassword ? <EyeOff className="text-[#666666]" /> : <Eye className="text-[#666666]" />}
+              </button>
             </div>
 
             <div className="flex items-center justify-between">
@@ -87,7 +97,7 @@ export default function LoginPage() {
           <div className="mt-6 text-center">
             <p className="text-neutral">
               Don&apos;t have an account?{" "}
-              <Link href="/signup" className="font-semibold text-secondary-1">
+              <Link href="/auth/signup" className="font-semibold text-secondary-1">
                 Sign up
               </Link>
             </p>
