@@ -40,7 +40,7 @@ export function RightSidebar({ isOpen, onToggle }: RightSidebarProps) {
             <Settings className="text-neutral/70" size={24} />
           </div>
           <Image
-            src="/assets/images/avatar.png"
+            src="/assets/images/avatar.svg"
             alt="Profile"
             width={40}
             height={40}
@@ -49,7 +49,7 @@ export function RightSidebar({ isOpen, onToggle }: RightSidebarProps) {
         </div>
 
         {/* Balance Card */}
-        <div className="relative bg-[#FFB800] rounded-xl p-4 mb-6 overflow-hidden">
+        <div className="relative bg-primary-2 rounded-xl p-4 mb-6 overflow-hidden">
           <Image
             src="/assets/images/dashboard/bg-balance.svg"
             alt="Background"
