@@ -4,7 +4,7 @@ import Link from 'next/link'
 export default function SignupPage() {
   return (
     <div className="min-h-screen flex">
-      <div className="w-1/2 bg-[#FFA500]/10 relative overflow-hidden">
+      <div className="w-1/2 bg-primary-2/10 relative overflow-hidden">
         <Image
           src="/assets/images/signup/signup-bg.png"
           alt="Signup background"
@@ -27,8 +27,8 @@ export default function SignupPage() {
           </Link>
 
           <div className="max-w-md">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">Sign up</h1>
-            <p className="text-gray-600 mb-8">Lets get you all st up so you can access your personal account.</p>
+            <h1 className="text-4xl font-poppins font-bold text-neutral mb-2">Sign up</h1>
+            <p className="text-neutral/70 mb-8">Let&apos;s get you all set up so you can access your personal account.</p>
 
             <form className="space-y-6">
               <div className="grid grid-cols-2 gap-6">
@@ -112,14 +112,14 @@ export default function SignupPage() {
 
               <button
                 type="submit"
-                className="w-full bg-orange-500 text-white py-4 rounded-full hover:bg-orange-600 transition-colors text-lg font-medium"
+                className="w-full bg-primary-2 text-neutral-white py-4 rounded-full hover:opacity-90 transition-opacity text-lg font-medium"
               >
                 Create account
               </button>
             </form>
 
             <div className="mt-6 text-center">
-              <p className="text-gray-600">
+              <p className="text-neutral/70">
                 Already have an account?{' '}
                 <Link href="/login" className="text-cyan-400 hover:text-cyan-500">Login</Link>
               </p>

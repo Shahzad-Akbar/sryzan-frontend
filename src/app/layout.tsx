@@ -1,8 +1,18 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Poppins, Open_Sans } from 'next/font/google'
 import './globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
+const poppins = Poppins({ 
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-poppins'
+})
+
+const openSans = Open_Sans({ 
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  variable: '--font-open-sans'
+})
 
 export const metadata: Metadata = {
   title: 'Sryzans - Food Delivery',
@@ -16,7 +26,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${poppins.variable} ${openSans.variable} font-open-sans`}>
+        {children}
+      </body>
     </html>
   )
 }

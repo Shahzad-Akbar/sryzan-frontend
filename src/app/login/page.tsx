@@ -29,8 +29,8 @@ export default function LoginPage() {
             />
           </Link>
 
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Login</h1>
-          <p className="text-gray-600 mb-8">Login to access your sryzans account</p>
+          <h1 className="text-4xl font-poppins font-bold text-neutral mb-2">Login</h1>
+          <p className="text-neutral/70 mb-8">Login to access your sryzans account</p>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
@@ -73,16 +73,16 @@ export default function LoginPage() {
 
             <button
               type="submit"
-              className="w-full bg-orange-500 text-white py-3 rounded-full hover:bg-orange-600 transition-colors"
+              className="w-full bg-primary-2 text-neutral-white py-3 rounded-full hover:opacity-90 transition-opacity"
             >
               Login
             </button>
           </form>
 
           <div className="mt-8 text-center">
-            <p className="text-gray-600">
+            <p className="text-neutral/70">
               Do not have an account?{' '}
-              <Link href="/signup" className="text-cyan-400 hover:text-cyan-500">
+              <Link href="/signup" className="text-secondary-1 hover:opacity-90">
                 Sign up
               </Link>
             </p>
