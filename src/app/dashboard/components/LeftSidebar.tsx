@@ -27,7 +27,7 @@ const menuItems = [
 
 export function LeftSidebar({ isOpen, onToggle }: LeftSidebarProps) {
   return (
-    <div className={`${isOpen ? 'w-64' : 'w-20'} bg-white h-screen flex flex-col relative transition-all duration-300`}>
+    <div className={`${isOpen ? 'w-64' : 'w-20'} bg-white h-screen sticky top-0 transition-all duration-300`}>
       <button 
         onClick={onToggle}
         className="absolute -right-4 top-10 bg-white p-2 rounded-full shadow-md hover:bg-gray-50 z-50"
