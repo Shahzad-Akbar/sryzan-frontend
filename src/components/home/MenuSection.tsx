@@ -22,7 +22,7 @@ export default function MenuSection() {
             className={`px-6 py-2 rounded-full border ${
               category === 'All' 
                 ? 'bg-[#FF9900] text-white border-[#FF9900]' 
-                : 'bg-white border-gray-200 hover:bg-[#FF9900] hover:text-white hover:border-[#FF9900]'
+                : 'bg-white border-neutral-2 hover:bg-[#FF9900] hover:text-white hover:border-[#FF9900]'
             }`}
           >
             {category}
@@ -58,7 +58,7 @@ export default function MenuSection() {
                 </div>
               </div>
               <h3 className="text-xl font-semibold mb-2">{item.name}</h3>
-              <p className="text-gray-600 text-sm">{item.description}</p>
+              <p className="text-neutral-2 text-sm">{item.description}</p>
             </div>
           </div>
         ))}

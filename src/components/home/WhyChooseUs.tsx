@@ -60,7 +60,7 @@ export default function WhyChooseUs() {
           <h2 className="text-4xl font-bold mb-6">
             Why Choose Us? 😋
           </h2>
-          <p className="text-gray-600 mb-8 max-w-lg">
+          <p className="text-neutral-2 mb-8 max-w-lg">
             Skip the hassle. Cancel orders in 60 seconds, enjoy same-day refunds, and 
             browse menus updated in real-time. Dining made delightful.our time matters. 
             That is why we guarantee instant cancellations, same-day refunds.

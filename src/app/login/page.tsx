@@ -34,20 +34,20 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+              <label className="block text-sm font-medium text-neutral-2 mb-2">Email</label>
               <input
                 type="email"
                 placeholder="john.doe@gmail.com"
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                className="w-full px-4 py-3 rounded-lg border border-neutral-2 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+              <label className="block text-sm font-medium text-neutral-2 mb-2">Password</label>
               <div className="relative">
                 <input
                   type="password"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  className="w-full px-4 py-3 rounded-lg border border-neutral-2 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 />
                 <button type="button" className="absolute right-3 top-1/2 -translate-y-1/2">
                   👁️
@@ -60,13 +60,13 @@ export default function LoginPage() {
                 <input
                   type="checkbox"
                   id="remember"
-                  className="h-4 w-4 rounded border-gray-300 text-orange-500 focus:ring-orange-500"
+                  className="h-4 w-4 rounded border-neutral-2 text-orange-500 focus:ring-orange-500"
                 />
-                <label htmlFor="remember" className="ml-2 text-sm text-gray-600">
+                <label htmlFor="remember" className="ml-2 text-sm text-neutral-2">
                   Remember me
                 </label>
               </div>
-              <Link href="/forgot-password" className="text-sm text-cyan-400 hover:text-cyan-500">
+              <Link href="/forgot-password" className="text-sm text-secondary-1 hover:text-secondary-1">
                 Forgot Password
               </Link>
             </div>
@@ -91,28 +91,28 @@ export default function LoginPage() {
           <div className="mt-8">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300"></div>
+                <div className="w-full border-t border-neutral-2"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Or login with</span>
+                <span className="px-2 bg-white text-neutral-2">Or login with</span>
               </div>
             </div>
 
             <div className="mt-6 grid grid-cols-3 gap-3">
-              <button className="flex justify-center items-center py-2 px-4 border border-gray-300 rounded-full hover:bg-gray-50">
+              <button className="flex justify-center items-center py-2 px-4 border border-neutral-2 rounded-full hover:bg-neutral-2">
                 <Image src="/assets/images/login/facebook.png" alt="Facebook" width={24} height={24} />
               </button>
-              <button className="flex justify-center items-center py-2 px-4 border border-gray-300 rounded-full hover:bg-gray-50">
+              <button className="flex justify-center items-center py-2 px-4 border border-neutral-2 rounded-full hover:bg-neutral-2">
                 <Image src="/assets/images/login/google.jpeg" alt="Google" width={24} height={24} />
               </button>
-              <button className="flex justify-center items-center py-2 px-4 border border-gray-300 rounded-full hover:bg-gray-50">
+              <button className="flex justify-center items-center py-2 px-4 border border-neutral-2 rounded-full hover:bg-neutral-2">
                 <Image src="/assets/images/login/apple.png" alt="Apple" width={24} height={24} />
               </button>
             </div>
           </div>
         </div>
       </div>
-      <div className="w-1/2 bg-gray-50">
+      <div className="w-1/2 bg-neutral-2">
         <Image
           src="/assets/images/login/login-bg.jpg"
           alt="Login background"

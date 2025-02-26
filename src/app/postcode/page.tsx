@@ -26,7 +26,7 @@ export default function PostcodePage() {
       <div className="w-1/2 p-8 relative">
         <button 
           onClick={handleClose}
-          className="absolute top-8 right-8 w-12 h-12 bg-[#37415F] rounded-full flex items-center justify-center hover:bg-gray-700"
+          className="absolute top-8 right-8 w-12 h-12 bg-[#37415F] rounded-full flex items-center justify-center hover:bg-neutral-2"
         >
           <Image
             src="/assets/images/postcode/close.png"
@@ -42,7 +42,7 @@ export default function PostcodePage() {
             <span className="border-b-4 border-orange-500">Post Code</span>
           </h1>
           
-          <p className="text-gray-600 mb-8 text-lg">
+          <p className="text-neutral-2 mb-8 text-lg">
             To start placing delivery order, please enter your full postcode here
           </p>
 
@@ -50,7 +50,7 @@ export default function PostcodePage() {
             <input
               type="text"
               placeholder="eg. AA1 1BB"
-              className="w-full px-6 py-4 pr-32 rounded-full border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-transparent text-lg"
+              className="w-full px-6 py-4 pr-32 rounded-full border border-neutral-2 focus:ring-2 focus:ring-orange-500 focus:border-transparent text-lg"
             />
             <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-orange-500 text-white px-8 py-3 rounded-full hover:bg-orange-600 text-lg font-medium">
               Find
@@ -58,19 +58,19 @@ export default function PostcodePage() {
           </div>
 
           <div className="flex items-center gap-6 mb-12">
-            <div className="h-[1px] bg-gray-200 flex-1" />
-            <span className="text-gray-500 text-lg">or</span>
-            <div className="h-[1px] bg-gray-200 flex-1" />
+            <div className="h-[1px] bg-neutral-2 flex-1" />
+            <span className="text-neutral-2 text-lg">or</span>
+            <div className="h-[1px] bg-neutral-2 flex-1" />
           </div>
 
-          <button className="flex items-center justify-center gap-3 text-gray-600 hover:text-cyan-500 group">
-            <div className="w-12 h-12 rounded-full border-2 border-current flex items-center justify-center group-hover:border-cyan-500">
+          <button className="flex items-center justify-center gap-3 text-neutral-2 hover:text-secondary-1 group">
+            <div className="w-12 h-12 rounded-full border-2 border-current flex items-center justify-center group-hover:border-secondary-1">
               <Image
                 src="/assets/images/postcode/location.svg"
                 alt="Location"
                 width={24}
                 height={24}
-                className="group-hover:text-cyan-500"
+                className="group-hover:text-secondary-1"
               />
             </div>
             <span className="text-lg">I want to come and collect</span>

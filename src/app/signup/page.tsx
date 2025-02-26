@@ -33,48 +33,48 @@ export default function SignupPage() {
             <form className="space-y-6">
               <div className="grid grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                  <label className="block text-sm font-medium text-neutral-2 mb-1">First Name</label>
                   <input
                     type="text"
                     placeholder="Enter your first name"
-                    className="w-full px-6 py-4 rounded-full border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-6 py-4 rounded-full border border-neutral-2 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                  <label className="block text-sm font-medium text-neutral-2 mb-1">Last Name</label>
                   <input
                     type="text"
                     placeholder="Enter your last name"
-                    className="w-full px-6 py-4 rounded-full border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-6 py-4 rounded-full border border-neutral-2 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <label className="block text-sm font-medium text-neutral-2 mb-1">Email</label>
                 <input
                   type="email"
                   placeholder="Enter your email address"
-                  className="w-full px-6 py-4 rounded-full border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  className="w-full px-6 py-4 rounded-full border border-neutral-2 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                <label className="block text-sm font-medium text-neutral-2 mb-1">Phone Number</label>
                 <input
                   type="tel"
                   placeholder="Enter your phone number"
-                  className="w-full px-6 py-4 rounded-full border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  className="w-full px-6 py-4 rounded-full border border-neutral-2 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                <label className="block text-sm font-medium text-neutral-2 mb-1">Password</label>
                 <div className="relative">
                   <input
                     type="password"
                     placeholder="Enter your password"
-                    className="w-full px-6 py-4 rounded-full border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-6 py-4 rounded-full border border-neutral-2 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   />
                   <button type="button" className="absolute right-6 top-1/2 -translate-y-1/2">
                     👁️
@@ -83,12 +83,12 @@ export default function SignupPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                <label className="block text-sm font-medium text-neutral-2 mb-1">Confirm Password</label>
                 <div className="relative">
                   <input
                     type="password"
                     placeholder="Confirm your password"
-                    className="w-full px-6 py-4 rounded-full border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-6 py-4 rounded-full border border-neutral-2 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   />
                   <button type="button" className="absolute right-6 top-1/2 -translate-y-1/2">
                     👁️
@@ -100,13 +100,13 @@ export default function SignupPage() {
                 <input
                   type="checkbox"
                   id="terms"
-                  className="h-5 w-5 rounded border-gray-200 text-orange-500 focus:ring-orange-500"
+                  className="h-5 w-5 rounded border-neutral-2 text-orange-500 focus:ring-orange-500"
                 />
-                <label htmlFor="terms" className="ml-3 text-sm text-gray-600">
+                <label htmlFor="terms" className="ml-3 text-sm text-neutral-2">
                   I agree to all the{' '}
-                  <Link href="/terms" className="text-cyan-400 hover:text-cyan-500">Terms</Link>
+                  <Link href="/terms" className="text-secondary-1 hover:text-secondary-1">Terms</Link>
                   {' '}and{' '}
-                  <Link href="/privacy" className="text-cyan-400 hover:text-cyan-500">Privacy Policies</Link>
+                  <Link href="/privacy" className="text-secondary-1 hover:text-secondary-1">Privacy Policies</Link>
                 </label>
               </div>
 
@@ -121,28 +121,28 @@ export default function SignupPage() {
             <div className="mt-6 text-center">
               <p className="text-neutral/70">
                 Already have an account?{' '}
-                <Link href="/login" className="text-cyan-400 hover:text-cyan-500">Login</Link>
+                <Link href="/login" className="text-secondary-1 hover:text-secondary-1">Login</Link>
               </p>
             </div>
 
             <div className="mt-8">
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-gray-200"></div>
+                  <div className="w-full border-t border-neutral-2"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-4 bg-white text-gray-500">Or Sign up with</span>
+                  <span className="px-4 bg-white text-neutral-2">Or Sign up with</span>
                 </div>
               </div>
 
               <div className="mt-6 grid grid-cols-3 gap-4">
-                <button className="flex justify-center items-center py-3 px-6 border border-gray-200 rounded-full hover:bg-gray-50">
+                <button className="flex justify-center items-center py-3 px-6 border border-neutral-2 rounded-full hover:bg-neutral-2">
                   <Image src="/assets/images/login/facebook.png" alt="Facebook" width={28} height={28} />
                 </button>
-                <button className="flex justify-center items-center py-2 px-4 border border-gray-300 rounded-full hover:bg-gray-50">
+                <button className="flex justify-center items-center py-2 px-4 border border-neutral-2 rounded-full hover:bg-neutral-2">
                   <Image src="/assets/images/login/google.jpeg" alt="Google" width={24} height={24} />
                 </button>
-                <button className="flex justify-center items-center py-2 px-4 border border-gray-300 rounded-full hover:bg-gray-50">
+                <button className="flex justify-center items-center py-2 px-4 border border-neutral-2 rounded-full hover:bg-neutral-2">
                   <Image src="/assets/images/login/apple.png" alt="Apple" width={24} height={24} />
                 </button>
               </div>

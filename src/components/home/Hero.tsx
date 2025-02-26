@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { Search } from 'lucide-react'
 
 export default function Hero() {
   return (
@@ -15,35 +16,35 @@ export default function Hero() {
             />
           </div>
           <div className="mt-12">
-            <h1 className="text-7xl font-bold mb-4 whitespace-nowrap">
-              Craving <span className="text-orange-500">Delicious</span>?
+            <h1 className="text-7xl font-bold mb-4 whitespace-nowrap text-black">
+              Craving <span>Delicious</span>?
             </h1>
-            <h2 className="text-7xl font-bold mb-12">
-              Get Delivered<br />in <span className="text-cyan-400">Minutes</span>!
+            <h2 className="text-7xl font-bold mb-12 text-black">
+              Get Delivered<br />in <span className="text-secondary-1">Minutes!</span>
             </h2>
           </div>
           <div className="relative">
             <input
               type="text"
               placeholder="Enter your delivery address in the town"
-              className="w-full p-4 pl-6 pr-32 rounded-full border bg-gray-50"
+              className="w-full p-4 pl-6 pr-32 rounded-full border bg-neutral-2"
             />
             <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
-              <span className="text-gray-400">Near Places</span>
-              <button className="bg-orange-500 text-white px-6 py-2 rounded-full hover:bg-orange-600">
-                Find Food
+              <span className="text-neutral-2">Near Places</span>
+              <button className="bg-secondary-1 text-white px-2 py-2 rounded-full hover:bg-orange-600">
+                <Search />
               </button>
             </div>
           </div>
           <div className="mt-8 flex items-center gap-6">
-            <button className="bg-orange-500 text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-orange-600">
+            <button className="bg-primary-2 text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-orange-600">
               Check Availability
             </button>
-            <a href="#menu" className="text-cyan-400 text-lg font-medium hover:text-cyan-500">
+            <a href="#menu" className="text-secondary-1 text-lg font-medium hover:text-secondary-1">
               See Menu
             </a>
           </div>
-          <div className="mt-6 flex items-center gap-4 text-gray-600">
+          <div className="mt-6 flex items-center gap-4 text-neutral-2">
             <span>Real-time tracking</span>
             <span>|</span>
             <span>60-second Cancellation</span>

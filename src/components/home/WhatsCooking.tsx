@@ -1,3 +1,4 @@
+import { ShoppingCart } from 'lucide-react'
 import Image from 'next/image'
 
 const cookingItems = [
@@ -38,7 +39,7 @@ export default function WhatsCooking() {
         <h2 className="text-4xl font-bold mb-4">
           See What is Cooking In <span className="text-orange-500">[City]</span>?
         </h2>
-        <p className="text-gray-600">
+        <p className="text-neutral-2">
           These Dishes Are Stealing The Show Today. Order Now Before They Sell Out!
         </p>
       </div>
@@ -53,8 +54,10 @@ export default function WhatsCooking() {
                 height={200}
                 className="w-full h-auto rounded-xl"
               />
-              <button className="absolute bottom-4 right-4 bg-cyan-400 text-white w-10 h-10 rounded-full flex items-center justify-center">
-                <span className="text-xl">🛒</span>
+              <button className="absolute bottom-4 right-4 bg-secondary-1-400 text-white w-10 h-10 rounded-full flex items-center justify-center">
+                <span className="text-xl">
+                <ShoppingCart />
+                </span>
               </button>
             </div>
             <div>
@@ -70,7 +73,7 @@ export default function WhatsCooking() {
                 </div>
               </div>
               <h3 className="text-xl font-semibold mb-2">{item.name}</h3>
-              <p className="text-gray-600 text-sm">{item.description}</p>
+              <p className="text-neutral-2 text-sm">{item.description}</p>
             </div>
           </div>
         ))}
