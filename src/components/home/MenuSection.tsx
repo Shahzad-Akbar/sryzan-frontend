@@ -1,17 +1,18 @@
 import Image from 'next/image'
 import { menuItems } from '@/constants/data'
+import { ShoppingCart } from 'lucide-react'
 
 const categories = ['All', 'Veg', 'Non Veg', 'No Egg', 'Drinks']
 
 export default function MenuSection() {
   return (
-    <section className="container mx-auto px-4 py-16 bg-[#F8FAFC]">
+    <section className="mx-auto px-4 py-16 bg-[#F8FAFC]">
       <div className="text-center mb-12">
         <h2 className="text-4xl font-bold">
-          <span className="text-[#FF9900]">Menu</span> That <span className="text-[#FFB800]">Always</span> Make
+          <span className="text-primary-2">Menu</span> That <span className="text-primary-2">Always</span> Make
         </h2>
         <h3 className="text-4xl font-bold">
-          You Fall In <span className="text-[#FF9900]">Love</span>
+          You Fall In <span className="text-primary-2">Love</span>
         </h3>
       </div>
 
@@ -21,8 +22,8 @@ export default function MenuSection() {
             key={category}
             className={`px-6 py-2 rounded-full border ${
               category === 'All' 
-                ? 'bg-[#FF9900] text-white border-[#FF9900]' 
-                : 'bg-white border-neutral-2 hover:bg-[#FF9900] hover:text-white hover:border-[#FF9900]'
+                ? 'bg-primary-2 text-white border-primary-2' 
+                : 'bg-white border-neutral-2 hover:bg-primary-2 hover:text-white hover:border-primary-2'
             }`}
           >
             {category}
@@ -42,7 +43,9 @@ export default function MenuSection() {
                 className="w-full h-48 object-cover rounded-xl"
               />
               <button className="absolute bottom-3 right-3 bg-[#40E0D0] text-white w-10 h-10 rounded-full flex items-center justify-center">
-                <span className="text-xl">🛒</span>
+                <span className="text-xl">
+                  <ShoppingCart />
+                </span>
               </button>
             </div>
             <div>
@@ -58,7 +61,7 @@ export default function MenuSection() {
                 </div>
               </div>
               <h3 className="text-xl font-semibold mb-2">{item.name}</h3>
-              <p className="text-neutral-2 text-sm">{item.description}</p>
+              <p className="text-neutral text-sm">{item.description}</p>
             </div>
           </div>
         ))}

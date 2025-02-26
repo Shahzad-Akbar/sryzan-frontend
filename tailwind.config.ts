@@ -22,7 +22,19 @@ export default {
         'open-sans': ['Open Sans', 'sans-serif'],
       },
       fontSize: {
+        '10': '10px',
         '48': '48px',
+        '80': '80px',
+      },
+      lineHeight: {
+        '105': '90px'
+      },
+      container: {
+        center: true,
+        padding: '70px',
+        screens: {
+          '2xl': '1440px',
+        },
       },
     },
   },

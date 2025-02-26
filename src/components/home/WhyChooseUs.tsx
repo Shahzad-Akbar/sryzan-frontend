@@ -41,12 +41,12 @@ const features = [
 
 export default function WhyChooseUs() {
   return (
-    <section className="container mx-auto px-4 py-16 bg-[#FDF8F4]">
+    <section className="px-4 py-16 bg-[#FFFAF4]">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-center">
         <div className="relative flex justify-center">
-          <div className="relative rounded-full overflow-hidden w-[380px] h-[380px]">
+          <div className="relative overflow-hidden w-[664px] h-[594px]">
             <Image
-              src="/assets/images/temp/chefs.png"
+              src="/assets/images/temp/chef.svg"
               alt="Chef"
               width={665}
               height={594}
@@ -60,7 +60,7 @@ export default function WhyChooseUs() {
           <h2 className="text-4xl font-bold mb-6">
             Why Choose Us? 😋
           </h2>
-          <p className="text-neutral-2 mb-8 max-w-lg">
+          <p className="text-neutral mb-8 max-w-lg">
             Skip the hassle. Cancel orders in 60 seconds, enjoy same-day refunds, and 
             browse menus updated in real-time. Dining made delightful.our time matters. 
             That is why we guarantee instant cancellations, same-day refunds.
@@ -75,7 +75,7 @@ export default function WhyChooseUs() {
               </div>
             ))}
           </div>
-          <button className="bg-orange-500 text-white px-8 py-3 rounded-full text-lg hover:bg-orange-600">
+          <button className="bg-primary-2 text-white px-8 py-3 rounded-full text-lg hover:bg-primary-2">
             Order Now
           </button>
         </div>

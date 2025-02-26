@@ -11,7 +11,7 @@ export default function PopularChef() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {chefs.map((chef) => (
           <div key={chef.id} className="relative group">
-            <div className="bg-blue-50 rounded-lg p-4 transition-all group-hover:bg-pink-50">
+            <div className="bg-[#DEFFFF] rounded-lg p-4 transition-all group-hover:bg-[#FFEBEB]">
               <Image
                 src={chef.image}
                 alt={chef.name}

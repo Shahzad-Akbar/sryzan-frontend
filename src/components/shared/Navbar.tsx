@@ -4,16 +4,15 @@ import { navLinks } from '@/constants/data'
 
 export default function Navbar() {
   return (
-    <nav className="bg-neutral-white shadow-sm">
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
+    <nav className="bg-neutral-white">
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex items-center justify-between text-lg">
           <Link href="/" className="text-2xl font-bold text-primary-2">
             <Image 
               src="/sryzan.svg" 
               alt="sryzans" 
-              width={150} 
-              height={40} 
-              className="h-6"
+              width={184} 
+              height={44} 
             />
           </Link>
           
@@ -30,7 +29,7 @@ export default function Navbar() {
           </div>
 
           <Link href="/login">
-            <button className="bg-primary-2 text-neutral-white px-6 py-2 rounded-lg hover:opacity-90 transition-opacity">
+            <button className="bg-primary-2 font-normal text-neutral-white px-6 py-2 rounded-full hover:opacity-90 transition-opacity">
               Login
             </button>
           </Link>
