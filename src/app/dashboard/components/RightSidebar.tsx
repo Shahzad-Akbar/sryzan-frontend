@@ -1,14 +1,29 @@
 import Image from 'next/image'
-import { ChevronLeft, ChevronRight, MapPin, Plus, Minus, Receipt, X } from 'lucide-react'
+import { 
+  ChevronLeft, 
+  ChevronRight, 
+  MapPin, 
+  Download, 
+  ArrowUpRight,
+  MessageSquare,
+  Bell,
+  Settings
+} from 'lucide-react'
 
 interface RightSidebarProps {
   isOpen: boolean
   onToggle: () => void
 }
 
+const orderItems = [
+  { name: 'Pepperoni Pizza', price: '70.59', image: '/assets/images/dishes/pepperoni-pizza.png' },
+  { name: 'Cheese Burger', price: '65.49', image: '/assets/images/dishes/cheese-burger.png' },
+  { name: 'Vegan Pizza', price: '50.09', image: '/assets/images/dishes/vegan-pizza.png' },
+]
+
 export function RightSidebar({ isOpen, onToggle }: RightSidebarProps) {
   return (
-    <div className={`${isOpen ? 'w-80' : 'w-0'} bg-white h-screen overflow-hidden transition-all duration-300 relative`}>
+    <div className={`${isOpen ? 'w-80' : 'w-0'} bg-white h-screen transition-all duration-300 relative`}>
       <button 
         onClick={onToggle}
         className="absolute -left-4 top-10 bg-white p-2 rounded-full shadow-md hover:bg-gray-50 z-50"
@@ -17,85 +32,111 @@ export function RightSidebar({ isOpen, onToggle }: RightSidebarProps) {
       </button>
       {/* ... existing right sidebar content ... */}
       <div className="p-6">
-          {/* Your Balance Section */}
-          <div className="bg-gray-50 rounded-xl p-4 mb-6">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="font-semibold text-neutral">Your Balance</h3>
-              <span className="text-primary-2 font-bold">₹1,500.00</span>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <button className="flex items-center justify-center gap-2 bg-primary-2 text-white py-2 rounded-lg hover:opacity-90">
-                <Plus size={16} /> Top Up
-              </button>
-              <button className="flex items-center justify-center gap-2 border border-primary-2 text-primary-2 py-2 rounded-lg hover:bg-primary-2/5">
-                <Receipt size={16} /> Transfer
-              </button>
-            </div>
+        {/* Header Icons */}
+        <div className="flex justify-between items-center mb-6">
+          <div className="flex gap-4">
+            <MessageSquare className="text-neutral/70" size={24} />
+            <Bell className="text-neutral/70" size={24} />
+            <Settings className="text-neutral/70" size={24} />
           </div>
+          <Image
+            src="/assets/images/avatar.png"
+            alt="Profile"
+            width={40}
+            height={40}
+            className="rounded-full"
+          />
+        </div>
 
-          {/* Your Address Section */}
-          <div className="mb-6">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="font-semibold text-neutral">Your Address</h3>
-              <button className="text-primary-2 text-sm hover:opacity-80">Change</button>
+        {/* Balance Card */}
+        <div className="relative bg-[#FFB800] rounded-xl p-4 mb-6 overflow-hidden">
+          <Image
+            src="/assets/images/dashboard/bg-balance.svg"
+            alt="Background"
+            fill
+            className="object-cover"
+          />
+          <div className="relative z-10">
+            <h3 className="text-white mb-2">Your Balance</h3>
+            <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3 mb-3">
+              <span className="text-white text-xl font-bold">₹1200</span>
             </div>
-            <div className="flex items-start gap-3">
-              <MapPin className="text-primary-2 mt-1 flex-shrink-0" size={20} />
-              <p className="text-sm text-neutral/70">123 Main Street, Apartment 4B, New York, NY 10001</p>
+            <div className="flex gap-2">
+              <button className="flex-1 bg-white rounded-lg py-2 px-3 flex items-center justify-center gap-1">
+                <Download size={16} />
+                Top Up
+              </button>
+              <button className="flex-1 bg-white rounded-lg py-2 px-3 flex items-center justify-center gap-1">
+                <ArrowUpRight size={16} />
+                Transfer
+              </button>
             </div>
-          </div>
-
-          {/* Order Menu */}
-          <div>
-            <h3 className="font-semibold text-neutral mb-4">Order Menu</h3>
-            <div className="space-y-4 mb-6">
-              {[1, 2].map((item) => (
-                <div key={item} className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Image
-                      src={`/assets/images/dishes/burger-${item}.png`}
-                      alt="Food"
-                      width={50}
-                      height={50}
-                      className="rounded-lg"
-                    />
-                    <div>
-                      <h4 className="text-sm font-medium text-neutral">Beef Burger</h4>
-                      <span className="text-sm text-primary-2">₹299.59</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <button className="p-1 bg-gray-100 rounded hover:bg-gray-200"><Minus size={16} /></button>
-                    <span className="w-8 text-center">1</span>
-                    <button className="p-1 bg-gray-100 rounded hover:bg-gray-200"><Plus size={16} /></button>
-                    <button className="p-1 text-red-500 hover:text-red-600"><X size={16} /></button>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Order Summary */}
-            <div className="space-y-3 border-t pt-4">
-              <div className="flex justify-between text-sm">
-                <span className="text-neutral/70">Subtotal</span>
-                <span>₹599.18</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-neutral/70">Service Charge</span>
-                <span>₹20.00</span>
-              </div>
-              <div className="flex justify-between font-semibold">
-                <span>Total</span>
-                <span className="text-primary-2">₹619.18</span>
-              </div>
-            </div>
-
-            {/* Checkout Button */}
-            <button className="w-full bg-primary-2 text-white py-3 rounded-xl mt-6 hover:opacity-90 transition-opacity">
-              Checkout
-            </button>
           </div>
         </div>
+
+        {/* Address Section */}
+        <div className="mb-6">
+          <div className="flex justify-between items-center mb-3">
+            <h3 className="font-medium">Your Address</h3>
+            <button className="text-primary-2 text-sm">Change</button>
+          </div>
+          <div className="flex items-start gap-2">
+            <MapPin className="text-primary-2 flex-shrink-0 mt-1" size={18} />
+            <p className="text-sm text-neutral/70">Elm Street, 23</p>
+          </div>
+          <div className="flex gap-2 mt-3">
+            <button className="flex-1 border border-neutral/20 rounded-lg py-2 text-sm">Add Details</button>
+            <button className="flex-1 border border-neutral/20 rounded-lg py-2 text-sm">Add Note</button>
+          </div>
+        </div>
+
+        {/* Order Menu */}
+        <div>
+          <h3 className="font-medium mb-4">Order Menu</h3>
+          <div className="space-y-4 mb-6">
+            {orderItems.map((item, index) => (
+              <div key={index} className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    width={50}
+                    height={50}
+                    className="rounded-lg"
+                  />
+                  <div>
+                    <h4 className="text-sm font-medium">{item.name}</h4>
+                    <span className="text-primary-2">+₹{item.price}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Service Charge */}
+          <div className="text-sm flex justify-between mb-3">
+            <span className="text-neutral/70">Service</span>
+            <span>+₹20.00</span>
+          </div>
+
+          {/* Total */}
+          <div className="flex justify-between font-medium mb-6">
+            <span>Total</span>
+            <span>₹206.17</span>
+          </div>
+
+          {/* Coupon Code */}
+          <button className="w-full border border-neutral/20 rounded-xl py-3 mb-4 flex items-center justify-between px-4">
+            <span className="text-neutral/70">Have a coupon code?</span>
+            <ChevronRight size={20} className="text-neutral/70" />
+          </button>
+
+          {/* Checkout Button */}
+          <button className="w-full bg-primary-2 text-white py-3 rounded-xl hover:opacity-90 transition-opacity">
+            Checkout
+          </button>
+        </div>
+      </div>
     </div>
   )
 }
