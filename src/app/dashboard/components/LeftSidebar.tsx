@@ -9,6 +9,8 @@ import {
   ChevronLeft,
   ChevronRight
 } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
 
 interface LeftSidebarProps {
   isOpen: boolean
@@ -29,6 +31,18 @@ export function LeftSidebar({ isOpen, onToggle }: LeftSidebarProps) {
   return (
     <div className="relative">
       <div className={`${isOpen ? 'w-64' : 'w-20'} bg-white h-screen sticky top-0 transition-all duration-300 overflow-hidden`}>
+
+        <div className={`${isOpen ? 'block' : 'hidden'} mb-10 p-4`}>
+          <Link href='/'>
+          <Image 
+            src="/sryzan.svg"
+            width={184}
+            height={44}
+            alt="sryzans"
+          />
+          </Link>
+        </div>
+
         <nav className="flex flex-col gap-2 p-4">
           {menuItems.map((item, index) => (
             <button

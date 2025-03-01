@@ -35,7 +35,7 @@ export function RightSidebar({ isOpen, onToggle }: RightSidebarProps) {
                 <Settings className="text-neutral/70" size={24} />
               </div>
               <Image
-                src="/assets/images/avatar.svg"
+                src="/assets/images/chef/modiji.jpg"
                 alt="Profile"
                 width={40}
                 height={40}

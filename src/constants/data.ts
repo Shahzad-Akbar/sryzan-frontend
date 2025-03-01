@@ -1,18 +1,20 @@
+import { title } from "process";
+
 export const chefs = [
   {
     id: 1,
-    name: "Zubair Alam",
-    image: "/assets/images/temp/chef2.jpg"
+    name: "Zubair Shah",
+    image: "/assets/images/chef/amitji.jpg"
   },
   {
     id: 2,
-    name: "Rohit Maurya",
-    image: "/assets/images/temp/chef2.jpg"
+    name: "Rohit Modi",
+    image: "/assets/images/chef/modiji.jpg"
   },
   {
     id: 3,
-    name: "Saara Ali",
-    image: "/assets/images/temp/chef2.jpg"
+    name: "Saara AdityaNath",
+    image: "/assets/images/chef/yogiji.jpg"
   },
   
   // Add more chefs
@@ -22,6 +24,7 @@ export const navLinks = [
   { id: 1, title: 'Policy', href: '/policy' },
   { id: 2, title: 'Our Menu', href: '/menu' },
   { id: 3, title: 'Our Popular Food', href: '/popular' },
+  { id: 4, title: 'Dashboard', href: '/dashboard' },
 ];
 
 export const foodCategories = [

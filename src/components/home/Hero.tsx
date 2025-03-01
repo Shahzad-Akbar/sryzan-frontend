@@ -16,7 +16,7 @@ export default function Hero() {
           </div>
           <div className="mt-8">
             <h1 className="text-80 leading-105 font-semibold mb-4 whitespace-nowrap text-black">
-              Craving <span className='text-primary-2'>Delicious</span>?
+              Craving <span className='text-primary-2'>Delicious?</span>
             </h1>
             <h2 className="text-80 leading-105 font-semibold mb-12 text-black">
               Get Delivered<br />in <span className="text-secondary-1">Minutes!</span>

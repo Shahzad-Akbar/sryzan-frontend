@@ -13,12 +13,10 @@ const openSans = Open_Sans({
   weight: ['400', '500', '600'],
   variable: '--font-open-sans'
 })
-
 export const metadata: Metadata = {
-  title: 'Sryzans - Food Delivery',
+  title: `${process.env.NEXT_PUBLIC_APP_NAME} - Food Delivery`,
   description: 'Get delicious food delivered in minutes',
 }
-
 export default function RootLayout({
   children,
 }: {

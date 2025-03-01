@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
 import { Search } from 'lucide-react'
 import Image from 'next/image'
+import { useUIStore } from '@/store/ui.store'
 import { LeftSidebar } from './components/LeftSidebar'
 import { RightSidebar } from './components/RightSidebar'
 import { CategorySection } from './components/CategorySection'
@@ -10,8 +10,12 @@ import { PopularDishesSection } from './components/PopularDishesSection'
 import { RecentOrdersSection } from './components/RecentOrdersSection'
 
 export default function DashboardPage() {
-  const [leftSidebarOpen, setLeftSidebarOpen] = useState(true)
-  const [rightSidebarOpen, setRightSidebarOpen] = useState(true)
+  const { 
+    leftSidebarOpen, 
+    rightSidebarOpen, 
+    setLeftSidebarOpen, 
+    setRightSidebarOpen 
+  } = useUIStore();
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
