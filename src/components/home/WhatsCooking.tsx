@@ -54,14 +54,13 @@ export default function WhatsCooking() {
             }}
           >
             <div className="relative mb-6 flex justify-center">
-              <div className="relative w-[200px] h-[200px] rounded-full overflow-hidden flex items-center justify-center bg-white">
+              <div className="relative w-[200px] h-[200px]">
                 <Image
                   src={item.image}
                   alt={item.name}
                   width={200}
                   height={200}
-                  className="object-contain"
-                  style={{ objectFit: 'contain' }}
+                  className="object-cover h-full w-full rounded-full"
                 />
               </div>
               <button 

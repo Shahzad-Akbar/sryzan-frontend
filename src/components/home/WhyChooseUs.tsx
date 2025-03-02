@@ -41,22 +41,19 @@ const features = [
 
 export default function WhyChooseUs() {
   return (
-    <section className="px-4 py-16 bg-[#FFFAF4]">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-center">
-        <div className="relative flex justify-center">
-          <div className="relative overflow-hidden w-[664px] h-[594px]">
+    <section className="flex justify-around items-center bg-[#FFFAF4] h-[748px]">
+      {/* <div className="flex justify-between"> */}
+        <div className="flex justify-start items-center">
+          {/* <div className="relative overflow-hidden w-[664px] h-[594px]"> */}
             <Image
               src="/assets/images/temp/chef.svg"
               alt="Chef"
               width={665}
               height={594}
-              className=""
+              className="object-cover w-[664px] h-[594px] "
             />
-          </div>
-          <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-[#E7FAE7] rounded-full -z-10" />
-          <div className="absolute -left-4 -top-4 w-16 h-16 bg-[#FFE5CC] rounded-full -z-10" />
         </div>
-        <div>
+        <div className='flex flex-col justify-center items-start'>
           <h2 className="text-4xl font-bold mb-6">
             Why Choose Us? 😋
           </h2>
@@ -75,11 +72,11 @@ export default function WhyChooseUs() {
               </div>
             ))}
           </div>
-          <button className="bg-primary-2 text-white px-8 py-3 rounded-full text-lg hover:bg-primary-2">
+          <button className="w-1/3 bg-primary-2 text-white px-8 py-3 rounded-full text-lg hover:bg-primary-2">
             Order Now
           </button>
         </div>
-      </div>
+      {/* </div> */}
     </section>
   )
 }
