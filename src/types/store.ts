@@ -2,23 +2,33 @@ import { Dish } from './api';
 import type { PaymentMethod } from './api';
 
 export interface User {
-  id: string;
-  name: string;
+  id: number;
   email: string;
+  name: string;
+  role: 'user' | 'admin';
+  isVerified: boolean;
 }
 
 export interface AuthStore {
   user: User | null;
-  token: string | null;
+  accessToken: string | null;
+  refreshToken: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
+  
   setUser: (user: User | null) => void;
-  setToken: (token: string | null) => void;
+  setTokens: (accessToken: string | null, refreshToken: string | null) => void;
   setError: (error: string | null) => void;
   setLoading: (loading: boolean) => void;
+  
   login: (email: string, password: string) => Promise<void>;
-  register: (userData: RegisterData) => Promise<void>;
+  register: (userData: { email: string; password: string; name: string }) => Promise<void>;
+  forgotPassword: (email: string) => Promise<void>;
+  resetPassword: (token: string, newPassword: string) => Promise<void>;
+  verifyEmail: (token: string) => Promise<void>;
+  resendVerificationEmail: (email: string) => Promise<void>;
+  refreshAccessToken: () => Promise<void>;
   logout: () => void;
 }
 

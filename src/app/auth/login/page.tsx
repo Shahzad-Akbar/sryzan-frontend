@@ -1,17 +1,26 @@
 "use client";
+
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useAuthStore } from "@/store/auth.store";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const { login, isLoading, error, resendVerificationEmail } = useAuthStore();
+  const router = useRouter();
+  const [formError, setFormError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    router.push("/postcode");
+    await login(email, password);
+    if (!error) {
+      router.push('/dashboard');
+    }
   };
 
   return (
@@ -30,12 +39,45 @@ export default function LoginPage() {
             Login to access your sryzans account
           </p>
 
+          {formError && (
+            <div className="mb-6 p-4 rounded-lg bg-red-50 border border-red-200">
+              <p className="text-red-700 text-sm">{formError}</p>
+            </div>
+          )}
+
+          {error && (
+            <div className="mb-6 p-4 rounded-lg bg-red-50 border border-red-200">
+              <p className="text-red-700 text-sm">{error}</p>
+              {error === 'Please verify your email first' && (
+                <p className="mt-2 text-sm text-red-700">
+                  Check your email for the verification link. Need a new link?{' '}
+                  <button
+                    type="button"
+                    className="text-secondary-1 hover:underline"
+                    onClick={async () => {
+                      try {
+                        await resendVerificationEmail(email);
+                        alert('Verification email sent! Please check your inbox.');
+                      } catch (error) {
+                        console.error('Failed to resend verification email:', error);
+                      }
+                    }}
+                  >
+                    Resend verification email
+                  </button>
+                </p>
+              )}
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="relative">
               <input
                 type="email"
                 placeholder="john.doe@gmail.com"
                 id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-6 py-4 rounded-[32px] text-[#1C1B1F] placeholder:text-[#1C1B1F] border border-[#E5E7EB] focus:outline-none focus:border-primary-2 pt-4 pb-2"
               />
               <label 
@@ -50,6 +92,8 @@ export default function LoginPage() {
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-6 py-4 rounded-[32px] text-[#1C1B1F] placeholder:text-[#1C1B1F] border border-[#E5E7EB] focus:outline-none focus:border-primary-2 pt-4 pb-2"
               />
               <label 
@@ -88,9 +132,10 @@ export default function LoginPage() {
 
             <button
               type="submit"
-              className="w-full bg-primary-2 text-neutral-white py-4 rounded-full hover:opacity-90 transition-opacity text-lg font-medium"
+              disabled={isLoading}
+              className="w-full bg-primary-2 text-neutral-white py-4 rounded-full hover:opacity-90 transition-opacity text-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Login
+              {isLoading ? "Logging in..." : "Login"}
             </button>
           </form>
 
@@ -102,29 +147,6 @@ export default function LoginPage() {
               </Link>
             </p>
           </div>
-
-          {/* <div className="mt-8">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-200"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-white text-neutral">Or login with</span>
-              </div>
-            </div>
-
-            <div className="mt-6 grid grid-cols-3 gap-4">
-              <button className="flex justify-center items-center py-3 px-4 border border-primary-2 rounded-full hover:bg-gray-50">
-                <Image src="/assets/images/logo/facebook.svg" alt="Facebook" width={24} height={24} />
-              </button>
-              <button className="flex justify-center items-center py-3 px-4 border border-primary-2 rounded-full hover:bg-gray-50">
-                <Image src="/assets/images/logo/google.svg" alt="Google" width={24} height={24} />
-              </button>
-              <button className="flex justify-center items-center py-3 px-4 border border-primary-2 rounded-full hover:bg-gray-50">
-                <Image src="/assets/images/logo/apple.svg" alt="apple" width={24} height={24} />
-              </button>
-            </div>
-          </div> */}
         </div>
       </div>
       <div className="w-1/2 relative">
