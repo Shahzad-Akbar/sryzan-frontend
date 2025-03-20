@@ -42,37 +42,51 @@ export const setupAuthInterceptor = (apiClient: AxiosInstance) => {
         return Promise.reject(error);
       }
 
+      // Don't retry for these endpoints to avoid infinite loops
+      const skipRetryEndpoints = ['/auth/login', '/auth/refresh-token'];
+      if (skipRetryEndpoints.some(endpoint => originalRequest.url?.includes(endpoint))) {
+        return Promise.reject(error);
+      }
+
       if (error.response?.status === 401 && !originalRequest._retry) {
         if (isRefreshing) {
-          return new Promise((resolve, reject) => {
-            failedQueue.push({ resolve, reject });
-          })
-            .then((token) => {
-              originalRequest.headers.Authorization = `Bearer ${token}`;
-              return apiClient(originalRequest);
+          try {
+            return new Promise((resolve, reject) => {
+              failedQueue.push({ resolve, reject });
             })
-            .catch((err) => {
-              return Promise.reject(err);
-            });
+              .then((token) => {
+                originalRequest.headers.Authorization = `Bearer ${token}`;
+                return apiClient(originalRequest);
+              })
+              .catch((err) => {
+                return Promise.reject(err);
+              });
+          } catch (error) {
+            return Promise.reject(error);
+          }
         }
 
         originalRequest._retry = true;
         isRefreshing = true;
 
         try {
-          await useAuthStore.getState().refreshAccessToken();
-          const newToken = useAuthStore.getState().accessToken;
-
-          if (!newToken) {
-            throw new Error('Failed to refresh token');
+          const refreshToken = useAuthStore.getState().refreshToken;
+          if (!refreshToken) {
+            throw new Error('No refresh token available');
           }
 
-          processQueue(null, newToken);
-          originalRequest.headers.Authorization = `Bearer ${newToken}`;
+          const response = await apiClient.post('/auth/refresh-token', { refreshToken });
+          const { accessToken, newRefreshToken } = response.data;
+
+          useAuthStore.getState().setTokens(accessToken, newRefreshToken);
+          processQueue(null, accessToken);
+          
+          originalRequest.headers.Authorization = `Bearer ${accessToken}`;
           return apiClient(originalRequest);
         } catch (refreshError) {
           processQueue(refreshError as Error);
           useAuthStore.getState().logout();
+          window.location.href = '/auth/login';
           return Promise.reject(refreshError);
         } finally {
           isRefreshing = false;

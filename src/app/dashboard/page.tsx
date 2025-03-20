@@ -8,6 +8,8 @@ import { RightSidebar } from './components/RightSidebar'
 import { CategorySection } from './components/CategorySection'
 import { PopularDishesSection } from './components/PopularDishesSection'
 import { RecentOrdersSection } from './components/RecentOrdersSection'
+import { UserDropdown } from './components/UserDropdown'
+import { useAuthStore } from '@/store/auth.store'
 
 export default function DashboardPage() {
   const { 
@@ -16,6 +18,7 @@ export default function DashboardPage() {
     setLeftSidebarOpen, 
     setRightSidebarOpen 
   } = useUIStore();
+  const { user } = useAuthStore();
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
@@ -29,15 +32,20 @@ export default function DashboardPage() {
           {/* Header */}
           <div className="flex justify-between items-center mb-8">
             <div>
-              <h1 className="text-2xl font-semibold text-neutral">Hello, Sara</h1>
+              <h1 className="text-2xl font-semibold text-neutral">
+                Hello, {user?.name?.split(' ')[0] || 'User'}
+              </h1>
             </div>
-            <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral/50" size={20} />
-              <input
-                type="text"
-                placeholder="What do you want eat today..."
-                className="w-[400px] pl-12 pr-4 py-3 rounded-full border border-gray-200 focus:outline-none focus:border-primary-2"
-              />
+            <div className="flex items-center space-x-6">
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral/50" size={20} />
+                <input
+                  type="text"
+                  placeholder="What do you want eat today..."
+                  className="w-[400px] pl-12 pr-4 py-3 rounded-full border border-gray-200 focus:outline-none focus:border-primary-2"
+                />
+              </div>
+              
             </div>
           </div>
           {/* Banner */}

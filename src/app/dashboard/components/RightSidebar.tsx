@@ -9,6 +9,7 @@ import {
   Bell,
   Settings
 } from 'lucide-react'
+import { UserDropdown } from './UserDropdown'
 
 interface RightSidebarProps {
   isOpen: boolean
@@ -34,13 +35,7 @@ export function RightSidebar({ isOpen, onToggle }: RightSidebarProps) {
                 <Bell className="text-neutral/70" size={24} />
                 <Settings className="text-neutral/70" size={24} />
               </div>
-              <Image
-                src="/assets/images/chef/modiji.jpg"
-                alt="Profile"
-                width={40}
-                height={40}
-                className="rounded-full"
-              />
+              <UserDropdown />
             </div>
   
             {/* Balance Card */}

@@ -17,8 +17,30 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setFormError('');
+
+    // Basic validation
+    if (!email) {
+      setFormError('Please enter your email address');
+      return;
+    }
+    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      setFormError('Please enter a valid email address');
+      return;
+    }
+    if (!password) {
+      setFormError('Please enter your password');
+      return;
+    }
+
     await login(email, password);
-    if (!error) {
+    
+    // Handle specific error cases
+    if (error?.includes('not verified')) {
+      setFormError('Please verify your email address before logging in.');
+    } else if (error?.includes('Invalid credentials')) {
+      setFormError('Invalid email or password. Please try again.');
+    } else if (!error) {
       router.push('/dashboard');
     }
   };
