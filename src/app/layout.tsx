@@ -1,22 +1,19 @@
 import type { Metadata } from 'next'
-import { Poppins, Open_Sans } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import './globals.css'
+import { AuthMiddleware } from '@/middleware/auth.middleware'
 
-const poppins = Poppins({ 
+const inter = Inter({ 
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
-  variable: '--font-poppins'
+  variable: '--font-inter'
 })
 
-const openSans = Open_Sans({ 
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  variable: '--font-open-sans'
-})
 export const metadata: Metadata = {
   title: `${process.env.NEXT_PUBLIC_APP_NAME} - Food Delivery`,
   description: 'Get delicious food delivered in minutes',
 }
+
 export default function RootLayout({
   children,
 }: {
@@ -24,8 +21,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${poppins.variable} ${openSans.variable} font-open-sans`}>
-        {children}
+      <body className={inter.variable}>
+        <AuthMiddleware>
+          {children}
+        </AuthMiddleware>
       </body>
     </html>
   )
