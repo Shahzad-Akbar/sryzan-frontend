@@ -4,20 +4,22 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useAuthStore } from "@/store/auth.store";
+// import { useAuthStore } from "@/store/auth.store";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const { login, isLoading, error, resendVerificationEmail } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(false);
+  // const { login, isLoading, error, resendVerificationEmail } = useAuthStore();
   const router = useRouter();
   const [formError, setFormError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError('');
+    setIsLoading(true);
 
     // Basic validation
     if (!email) {
@@ -33,15 +35,31 @@ export default function LoginPage() {
       return;
     }
 
-    await login(email, password);
-    
-    // Handle specific error cases
-    if (error?.includes('not verified')) {
-      setFormError('Please verify your email address before logging in.');
-    } else if (error?.includes('Invalid credentials')) {
-      setFormError('Invalid email or password. Please try again.');
-    } else if (!error) {
+    try {
+      // sending login request to api route without using useAuthStore
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },  
+        body: JSON.stringify({ email, password }),
+      });
+
+      console.log('Response status:', res);
+
+      if (res.status === 401) {
+        setFormError('Invalid email or password');
+        return;
+      }
+
+      // At successful login redirect user to dashboard
       router.push('/dashboard');
+
+    } catch (error) {
+      console.error('Login error:', error);
+      setFormError('An error occurred during login. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -66,8 +84,7 @@ export default function LoginPage() {
               <p className="text-red-700 text-sm">{formError}</p>
             </div>
           )}
-
-          {error && (
+          {/* {error && (
             <div className="mb-6 p-4 rounded-lg bg-red-50 border border-red-200">
               <p className="text-red-700 text-sm">{error}</p>
               {error === 'Please verify your email first' && (
@@ -90,7 +107,7 @@ export default function LoginPage() {
                 </p>
               )}
             </div>
-          )}
+          )} */}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="relative">

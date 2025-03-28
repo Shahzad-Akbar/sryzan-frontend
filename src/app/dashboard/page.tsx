@@ -8,7 +8,6 @@ import { RightSidebar } from './components/RightSidebar'
 import { CategorySection } from './components/CategorySection'
 import { PopularDishesSection } from './components/PopularDishesSection'
 import { RecentOrdersSection } from './components/RecentOrdersSection'
-import { UserDropdown } from './components/UserDropdown'
 import { useAuthStore } from '@/store/auth.store'
 
 export default function DashboardPage() {

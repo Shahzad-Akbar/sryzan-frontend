@@ -27,4 +27,18 @@ export const API_ENDPOINTS = {
   // Orders
   CREATE_ORDER: '/api/orders',
   ORDER_HISTORY: '/api/orders/history',
+
+  // Admin
+  ADMIN_DASHBOARD_STATS: '/api/admin/stats',
+  ADMIN_USERS: '/api/admin/users',
+  ADMIN_UPDATE_USER: '/api/admin/users/:id',
+  ADMIN_DELETE_USER: '/api/admin/users/:id',
+  ADMIN_GET_RESTAURANTS: '/api/admin/restaurants',
+  ADMIN_CREATE_RESTAURANT: '/api/admin/restaurants',
+  ADMIN_UPDATE_RESTAURANT: '/api/admin/restaurants/:id',
+  ADMIN_DELETE_RESTAURANT: '/api/admin/restaurants/:id',
+  ADMIN_GET_ORDERS: '/api/admin/orders',
+  ADMIN_UPDATE_ORDER: '/api/admin/orders/:id',
+  ADMIN_DELETE_ORDER: '/api/admin/orders/:id',
+  ADMIN_ORDER_ANALYTICS: '/api/admin/analytics/orders',
 };
