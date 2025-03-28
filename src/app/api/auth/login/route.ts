@@ -1,33 +1,30 @@
-// Write the api route for sending login data and seting the cookies
-import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import axios from "axios";
-import { API_BASE_URL, API_ENDPOINTS } from "@/lib/api/config";
+import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
+import { apiClient } from '@/lib/api/client';
+import { API_ENDPOINTS } from '@/lib/api/config';
+import { setupAuthInterceptor } from '@/lib/api/interceptors/auth.interceptor';
 
 export async function POST(request: Request) {
+  await setupAuthInterceptor(apiClient);
   const cookieStore = await cookies();
+
   const body = await request.json();
   const { email, password } = body;
-  
+
   try {
-    const loginUrl = API_BASE_URL + API_ENDPOINTS.LOGIN;
-  const res = await axios.post(loginUrl, {
-    email,
-    password,
-  });
+    const res = await apiClient.post(API_ENDPOINTS.LOGIN, { email, password });
+    const { user, accessToken, refreshToken } = res.data;
 
-  const { user, accessToken, refreshToken } = res.data;
+    cookieStore.set('token', accessToken, { maxAge: 900 });
+    cookieStore.set('refreshToken', refreshToken, { maxAge: 604800 });
 
-  cookieStore.set("token", accessToken);
-  cookieStore.set("refreshToken", refreshToken);
+    if (user.role === 'admin') {
+      cookieStore.set('admin', 'admin');
+    }
 
-  if (user.role === "admin") {
-    cookieStore.set("admin", "admin");
-    return NextResponse.json({ message: "Logged in" });
-  }
-
-  return NextResponse.json({ message: "Logged in" });
+    return NextResponse.json({ message: 'Logged in' });
   } catch (error) {
-    return NextResponse.json({ error }); 
+    console.error('Login error:', error);
+    return NextResponse.json({ error: 'Login failed. Please try again.' }, { status: 500 });
   }
 }

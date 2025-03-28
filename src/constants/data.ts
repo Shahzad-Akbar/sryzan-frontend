@@ -1,22 +1,22 @@
-import { title } from "process";
+import { title } from 'process';
 
 export const chefs = [
   {
     id: 1,
-    name: "Zubair Shah",
-    image: "/assets/images/chef/amitji.jpg"
+    name: 'Zubair Shah',
+    image: '/assets/images/chef/amitji.jpg',
   },
   {
     id: 2,
-    name: "Rohit Modi",
-    image: "/assets/images/chef/modiji.jpg"
+    name: 'Rohit Modi',
+    image: '/assets/images/chef/modiji.jpg',
   },
   {
     id: 3,
-    name: "Saara AdityaNath",
-    image: "/assets/images/chef/yogiji.jpg"
+    name: 'Saara AdityaNath',
+    image: '/assets/images/chef/yogiji.jpg',
   },
-  
+
   // Add more chefs
 ];
 
@@ -37,21 +37,21 @@ export const foodCategories = [
 export const popularDishes = [
   {
     id: 1,
-    name: "Kabab",
-    image: "/temp/qr.png",
-    price: "$12.99",
+    name: 'Kabab',
+    image: '/temp/qr.png',
+    price: '$12.99',
     rating: 4.5,
     reviews: 45,
-    description: "Lorem ipsum is simply dummy text of the printing"
+    description: 'Lorem ipsum is simply dummy text of the printing',
   },
   {
     id: 2,
-    name: "Chicken Tikka",
-    image: "/temp/qr.png",
-    price: "$14.99",
+    name: 'Chicken Tikka',
+    image: '/temp/qr.png',
+    price: '$14.99',
     rating: 4.4,
     reviews: 42,
-    description: "Lorem ipsum is simply dummy text of the printing"
+    description: 'Lorem ipsum is simply dummy text of the printing',
   },
   // Add more dishes as needed
 ];
@@ -62,55 +62,55 @@ export const menuItems = [
     name: 'Kebab',
     image: '/assets/images/temp/kabab.jpg',
     rating: 4.5,
-    description: 'Lorem ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry'
+    description: 'Lorem ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry',
   },
   {
     id: 2,
     name: 'Biryani',
     image: '/assets/images/menu/Biryani.jpeg',
     rating: 4.5,
-    description: 'Lorem ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry'
+    description: 'Lorem ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry',
   },
   {
     id: 3,
     name: 'korma',
     image: '/assets/images/menu/Korma.webp',
     rating: 4.5,
-    description: 'Lorem ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry'
+    description: 'Lorem ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry',
   },
   {
     id: 4,
     name: 'pizza',
     image: '/assets/images/menu/pizza.jpg',
     rating: 4.8,
-    description: 'Lorem ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry'
+    description: 'Lorem ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry',
   },
   {
     id: 5,
     name: 'Chicken Tikka',
     image: '/assets/images/menu/Tikkas.jpg',
     rating: 4.5,
-    description: 'Lorem ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry'
+    description: 'Lorem ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry',
   },
   {
     id: 6,
     name: 'Burger',
     image: '/assets/images/menu/Burger.jpg',
     rating: 4.5,
-    description: 'Lorem ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry'
+    description: 'Lorem ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry',
   },
   {
     id: 7,
     name: 'Cake',
     image: '/assets/images/menu/Cake.jpg',
     rating: 4.5,
-    description: 'Lorem ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry'
+    description: 'Lorem ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry',
   },
   {
     id: 8,
     name: 'Egg roll',
     image: '/assets/images/menu/Roll.jpg',
     rating: 4.5,
-    description: 'Lorem ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry'
-  }
-]
+    description: 'Lorem ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry',
+  },
+];

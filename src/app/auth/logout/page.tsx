@@ -32,9 +32,7 @@ export default function LogoutPage() {
           </Link>
         </div>
         <div className="w-full ml-20 my-5 py-5 px-20">
-          <h2 className="text-40 font-poppins font-semibold text-neutral mb-2">
-            Logging Out
-          </h2>
+          <h2 className="text-40 font-poppins font-semibold text-neutral mb-2">Logging Out</h2>
           <p className="text-neutral/75 text-lg font-normal mb-8">
             Please wait while we log you out...
           </p>

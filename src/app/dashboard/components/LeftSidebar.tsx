@@ -1,20 +1,20 @@
-import { 
-  LayoutDashboard, 
-  UtensilsCrossed, 
-  Heart, 
-  MessageSquare, 
-  Clock, 
-  Receipt, 
+import {
+  LayoutDashboard,
+  UtensilsCrossed,
+  Heart,
+  MessageSquare,
+  Clock,
+  Receipt,
   Settings,
   ChevronLeft,
-  ChevronRight
-} from 'lucide-react'
-import Image from 'next/image'
-import Link from 'next/link'
+  ChevronRight,
+} from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
 
 interface LeftSidebarProps {
-  isOpen: boolean
-  onToggle: () => void
+  isOpen: boolean;
+  onToggle: () => void;
 }
 
 const menuItems = [
@@ -25,21 +25,17 @@ const menuItems = [
   { icon: <Clock size={24} />, label: 'Order History' },
   { icon: <Receipt size={24} />, label: 'Bills' },
   { icon: <Settings size={24} />, label: 'Setting' },
-]
+];
 
 export function LeftSidebar({ isOpen, onToggle }: LeftSidebarProps) {
   return (
     <div className="relative">
-      <div className={`${isOpen ? 'w-64' : 'w-20'} bg-white h-screen sticky top-0 transition-all duration-300 overflow-hidden`}>
-
+      <div
+        className={`${isOpen ? 'w-64' : 'w-20'} bg-white h-screen sticky top-0 transition-all duration-300 overflow-hidden`}
+      >
         <div className={`${isOpen ? 'block' : 'hidden'} mb-10 p-4`}>
-          <Link href='/'>
-          <Image 
-            src="/sryzan.svg"
-            width={184}
-            height={44}
-            alt="sryzans"
-          />
+          <Link href="/">
+            <Image src="/sryzan.svg" width={184} height={44} alt="sryzans" />
           </Link>
         </div>
 
@@ -48,10 +44,7 @@ export function LeftSidebar({ isOpen, onToggle }: LeftSidebarProps) {
             <button
               key={index}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all
-                ${item.active 
-                  ? 'bg-primary-2 text-white' 
-                  : 'text-neutral/70 hover:bg-gray-50'
-                }
+                ${item.active ? 'bg-primary-2 text-white' : 'text-neutral/70 hover:bg-gray-50'}
                 ${!isOpen && 'justify-center px-2'}
               `}
             >
@@ -61,12 +54,12 @@ export function LeftSidebar({ isOpen, onToggle }: LeftSidebarProps) {
           ))}
         </nav>
       </div>
-      <button 
+      <button
         onClick={onToggle}
         className="absolute -right-4 top-10 bg-white p-2 rounded-full shadow-md hover:bg-gray-50 z-50"
       >
         {isOpen ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
       </button>
     </div>
-  )
+  );
 }

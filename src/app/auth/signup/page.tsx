@@ -1,16 +1,14 @@
 'use client';
 
-import Image from "next/image";
-import Link from "next/link";
-import { Eye, EyeOff } from "lucide-react";
-import { useState, FormEvent } from "react";
-import { useAuthStore } from "@/store/auth.store";
-import { useRouter } from "next/navigation";
+import Image from 'next/image';
+import Link from 'next/link';
+import { Eye, EyeOff } from 'lucide-react';
+import { useState, FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function SignupPage() {
   const router = useRouter();
-  const { register, error, isLoading, resendVerificationEmail } = useAuthStore();
-  
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -18,25 +16,29 @@ export default function SignupPage() {
     phone: '',
     password: '',
     confirmPassword: '',
-    terms: false
+    terms: false,
   });
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formError, setFormError] = useState('');
   const [status, setStatus] = useState<'form' | 'success'>('form');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === 'checkbox' ? checked : value,
     }));
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setFormError('');
+    setError(null);
+    setIsLoading(true);
 
     // Basic validation
     if (!formData.firstName.trim()) {
@@ -61,7 +63,9 @@ export default function SignupPage() {
     }
     // Password requirements: at least 8 characters, 1 uppercase, 1 lowercase, 1 number
     if (!formData.password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/)) {
-      setFormError('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number');
+      setFormError(
+        'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number',
+      );
       return;
     }
     if (formData.password !== formData.confirmPassword) {
@@ -74,11 +78,26 @@ export default function SignupPage() {
     }
 
     try {
-      await register({
-        name: `${formData.firstName} ${formData.lastName}`,
-        email: formData.email,
-        password: formData.password
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
+
+      console.log('Response status:', res);
+
+      if (res.status === 401) {
+        setFormError('Invalid email or password');
+        return;
+      }
+
+      if (!res.ok) {
+        const data = await res.json();
+        setFormError(data.error || 'Registration failed. Please try again.');
+        return;
+      }
 
       // Handle specific error cases
       if (error?.includes('already exists')) {
@@ -88,6 +107,9 @@ export default function SignupPage() {
       }
     } catch (err) {
       setFormError(error || 'Registration failed. Please try again.');
+      console.error('Error during registration:', err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -144,7 +166,9 @@ export default function SignupPage() {
                 Registration Successful!
               </h2>
               <p className="text-neutral/70 text-lg mb-8">
-                We've sent a verification email to <span className="font-semibold text-neutral">{formData.email}</span>.<br />
+                We've sent a verification email to{' '}
+                <span className="font-semibold text-neutral">{formData.email}</span>
+                .<br />
                 Please check your inbox and click the verification link to activate your account.
               </p>
               <div className="space-y-4">
@@ -175,12 +199,9 @@ export default function SignupPage() {
             </div>
           ) : (
             <>
-              <h1 className="text-40 font-poppins font-bold text-neutral mb-2">
-                Sign up
-              </h1>
+              <h1 className="text-40 font-poppins font-bold text-neutral mb-2">Sign up</h1>
               <p className="text-neutral/70 mb-8 text-base">
-                Let&apos;s get you all set up so you can access your personal
-                account.
+                Let&apos;s get you all set up so you can access your personal account.
               </p>
 
               {(formError || error) && (
@@ -202,8 +223,8 @@ export default function SignupPage() {
                       required
                       className="w-full px-6 py-4 rounded-[32px] text-[#1C1B1F] placeholder:text-[#1C1B1F] border border-[#E5E7EB] focus:outline-none focus:border-primary-2 pt-4 pb-2"
                     />
-                    <label 
-                      htmlFor="firstName" 
+                    <label
+                      htmlFor="firstName"
                       className="absolute left-6 top-0 text-sm text-[#1C1B1F] bg-white px-2 translate-y-[-50%]"
                     >
                       First Name
@@ -221,8 +242,8 @@ export default function SignupPage() {
                       required
                       className="w-full px-6 py-4 rounded-[32px] text-[#1C1B1F] placeholder:text-[#1C1B1F] border border-[#E5E7EB] focus:outline-none focus:border-primary-2 pt-4 pb-2"
                     />
-                    <label 
-                      htmlFor="lastName" 
+                    <label
+                      htmlFor="lastName"
                       className="absolute left-6 top-0 text-sm text-[#1C1B1F] bg-white px-2 translate-y-[-50%]"
                     >
                       Last Name
@@ -242,8 +263,8 @@ export default function SignupPage() {
                       required
                       className="w-full px-6 py-4 rounded-[32px] text-[#1C1B1F] placeholder:text-[#1C1B1F] border border-[#E5E7EB] focus:outline-none focus:border-primary-2 pt-4 pb-2"
                     />
-                    <label 
-                      htmlFor="email" 
+                    <label
+                      htmlFor="email"
                       className="absolute left-6 top-0 text-sm text-[#1C1B1F] bg-white px-2 translate-y-[-50%]"
                     >
                       Email
@@ -260,8 +281,8 @@ export default function SignupPage() {
                       id="phone"
                       className="w-full px-6 py-4 rounded-[32px] text-[#1C1B1F] placeholder:text-[#1C1B1F] border border-[#E5E7EB] focus:outline-none focus:border-primary-2 pt-4 pb-2"
                     />
-                    <label 
-                      htmlFor="phone" 
+                    <label
+                      htmlFor="phone"
                       className="absolute left-6 top-0 text-sm text-[#1C1B1F] bg-white px-2 translate-y-[-50%]"
                     >
                       Phone Number
@@ -271,7 +292,7 @@ export default function SignupPage() {
 
                 <div className="relative">
                   <input
-                    type={showPassword ? "text" : "password"}
+                    type={showPassword ? 'text' : 'password'}
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
@@ -280,8 +301,8 @@ export default function SignupPage() {
                     required
                     className="w-full px-6 py-4 rounded-[32px] text-[#1C1B1F] placeholder:text-[#1C1B1F] border border-[#E5E7EB] focus:outline-none focus:border-primary-2 pt-4 pb-2"
                   />
-                  <label 
-                    htmlFor="password" 
+                  <label
+                    htmlFor="password"
                     className="absolute left-6 top-0 text-sm text-[#1C1B1F] bg-white px-2 translate-y-[-50%]"
                   >
                     Password
@@ -297,7 +318,7 @@ export default function SignupPage() {
 
                 <div className="relative">
                   <input
-                    type={showConfirmPassword ? "text" : "password"}
+                    type={showConfirmPassword ? 'text' : 'password'}
                     name="confirmPassword"
                     value={formData.confirmPassword}
                     onChange={handleChange}
@@ -306,8 +327,8 @@ export default function SignupPage() {
                     required
                     className="w-full px-6 py-4 rounded-[32px] text-[#1C1B1F] placeholder:text-[#1C1B1F] border border-[#E5E7EB] focus:outline-none focus:border-primary-2 pt-4 pb-2"
                   />
-                  <label 
-                    htmlFor="confirmPassword" 
+                  <label
+                    htmlFor="confirmPassword"
                     className="absolute left-6 top-0 text-sm text-[#1C1B1F] bg-white px-2 translate-y-[-50%]"
                   >
                     Confirm Password
@@ -331,18 +352,12 @@ export default function SignupPage() {
                     className="h-5 w-5 rounded border-neutral text-orange-500 focus:ring-orange-500"
                   />
                   <label htmlFor="terms" className="ml-3 text-sm text-neutral">
-                    I agree to all the{" "}
-                    <Link
-                      href="/terms"
-                      className="text-secondary-1 hover:text-secondary-1"
-                    >
+                    I agree to all the{' '}
+                    <Link href="/terms" className="text-secondary-1 hover:text-secondary-1">
                       Terms
-                    </Link>{" "}
-                    and{" "}
-                    <Link
-                      href="/privacy"
-                      className="text-secondary-1 hover:text-secondary-1"
-                    >
+                    </Link>{' '}
+                    and{' '}
+                    <Link href="/privacy" className="text-secondary-1 hover:text-secondary-1">
                       Privacy Policies
                     </Link>
                   </label>
@@ -359,11 +374,8 @@ export default function SignupPage() {
 
               <div className="mt-4 text-center">
                 <p className="text-neutral/70">
-                  Already have an account?{" "}
-                  <Link
-                    href="/auth/login"
-                    className="text-secondary-1 hover:text-secondary-1"
-                  >
+                  Already have an account?{' '}
+                  <Link href="/auth/login" className="text-secondary-1 hover:text-secondary-1">
                     Login
                   </Link>
                 </p>

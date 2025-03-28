@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { User, Edit2, Search } from 'lucide-react';
+import { UserEditModal } from '@/components/user-edit-modal';
 import { useToast } from '@/components/ui/use-toast';
 
-interface User {
+export interface User {
   id: number;
   name: string;
   email: string;
@@ -25,19 +26,17 @@ export default function UsersPage() {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await fetch(
-        `/api/admin/users?page=${page}&search=${search}&limit=10`
-      );
+      const response = await fetch(`/api/admin/users?page=${page}&search=${search}&limit=10`);
       const data = await response.json();
       console.log(data); // Add this line to check the response data in the console
       const userData = data.data; // Assuming the data is an array of users
       console.log(userData); // Add this line to check the response data in the console
       if (response.ok) {
-        console.log("Setting users")
+        console.log('Setting users');
         setUsers(userData);
         setTotalPages(userData.length);
-        console.log("after setting users")
-        console.log(users)
+        console.log('after setting users');
+        console.log(users);
       }
     } catch (error) {
       toast({
@@ -45,6 +44,7 @@ export default function UsersPage() {
         description: 'Failed to fetch users',
         variant: 'destructive',
       });
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -67,6 +67,7 @@ export default function UsersPage() {
           title: 'Success',
           description: 'User updated successfully',
         });
+        setEditingUser(null);
         fetchUsers();
       }
     } catch (error) {
@@ -75,6 +76,7 @@ export default function UsersPage() {
         description: 'Failed to update user',
         variant: 'destructive',
       });
+      console.error(error);
     }
   };
 
@@ -137,9 +139,7 @@ export default function UsersPage() {
                         <User className="h-10 w-10 rounded-full bg-gray-100 p-2" />
                       </div>
                       <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">
-                          {user.name}
-                        </div>
+                        <div className="text-sm font-medium text-gray-900">{user.name}</div>
                       </div>
                     </div>
                   </td>
@@ -172,6 +172,12 @@ export default function UsersPage() {
           </tbody>
         </table>
       </div>
+
+      <UserEditModal
+        user={editingUser}
+        onClose={() => setEditingUser(null)}
+        onUpdate={handleUpdateUser}
+      />
 
       <div className="mt-4 flex justify-center">
         <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">

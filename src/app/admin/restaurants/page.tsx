@@ -26,9 +26,7 @@ export default function RestaurantsPage() {
   const fetchRestaurants = async () => {
     try {
       setLoading(true);
-      const response = await fetch(
-        `/api/admin/restaurants?page=${page}&search=${search}&limit=10`
-      );
+      const response = await fetch(`/api/admin/restaurants?page=${page}&search=${search}&limit=10`);
       const data = await response.json();
       if (data.success) {
         setRestaurants(data.data);
@@ -141,12 +139,8 @@ export default function RestaurantsPage() {
                         <Store className="h-10 w-10 rounded-full bg-gray-100 p-2" />
                       </div>
                       <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">
-                          {restaurant.name}
-                        </div>
-                        <div className="text-sm text-gray-500">
-                          {restaurant.description}
-                        </div>
+                        <div className="text-sm font-medium text-gray-900">{restaurant.name}</div>
+                        <div className="text-sm text-gray-500">{restaurant.description}</div>
                       </div>
                     </div>
                   </td>

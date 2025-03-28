@@ -1,6 +1,6 @@
-import Image from 'next/image'
-import { Heart, ChevronRight } from 'lucide-react'
-import { recentOrders } from '../data'
+import Image from 'next/image';
+import { Heart, ChevronRight } from 'lucide-react';
+import { recentOrders } from '../data';
 
 export function RecentOrdersSection() {
   return (
@@ -23,7 +23,7 @@ export function RecentOrdersSection() {
                 className="w-full h-48 object-cover rounded-xl"
               />
               <button className="absolute top-1 right-4 p-2">
-                <Heart fill='#DBDBDB' color='#DBDBDB' size={20} />
+                <Heart fill="#DBDBDB" color="#DBDBDB" size={20} />
               </button>
             </div>
             <div className="mt-4">
@@ -40,5 +40,5 @@ export function RecentOrdersSection() {
         ))}
       </div>
     </div>
-  )
+  );
 }

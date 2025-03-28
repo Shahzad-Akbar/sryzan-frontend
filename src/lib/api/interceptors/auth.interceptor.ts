@@ -1,26 +1,34 @@
+'use server';
 import { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from 'axios';
-import { useAuthStore } from '@/store/auth.store';
+import { cookies } from 'next/headers';
 
 interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
 }
 
-export const setupAuthInterceptor = (apiClient: AxiosInstance) => {
+let isRefreshing = false;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let failedQueue: {
+  resolve: (value: unknown) => void;
+  reject: (reason?: any) => void;
+}[] = [];
+
+export const setupAuthInterceptor = async (apiClient: AxiosInstance) => {
   apiClient.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
-      const accessToken = useAuthStore.getState().accessToken;
+      const accessToken = cookieStore.get('token')?.value;
       if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`;
       }
+      config.withCredentials = true;
       return config;
     },
     (error) => {
       return Promise.reject(error);
-    }
+    },
   );
 
-  let isRefreshing = false;
-  let failedQueue: { resolve: (value: unknown) => void; reject: (reason?: any) => void }[] = [];
+  const cookieStore = await cookies();
 
   const processQueue = (error: Error | null, token: string | null = null) => {
     failedQueue.forEach((promise) => {
@@ -44,7 +52,7 @@ export const setupAuthInterceptor = (apiClient: AxiosInstance) => {
 
       // Don't retry for these endpoints to avoid infinite loops
       const skipRetryEndpoints = ['/auth/login', '/auth/refresh-token'];
-      if (skipRetryEndpoints.some(endpoint => originalRequest.url?.includes(endpoint))) {
+      if (skipRetryEndpoints.some((endpoint) => originalRequest.url?.includes(endpoint))) {
         return Promise.reject(error);
       }
 
@@ -70,23 +78,40 @@ export const setupAuthInterceptor = (apiClient: AxiosInstance) => {
         isRefreshing = true;
 
         try {
-          const refreshToken = useAuthStore.getState().refreshToken;
+          const refreshToken = cookieStore.get('refreshToken')?.value;
+
+          // Check if refreshToken is available before making the API call
           if (!refreshToken) {
             throw new Error('No refresh token available');
           }
 
-          const response = await apiClient.post('/auth/refresh-token', { refreshToken });
+          const response = await apiClient.post(
+            '/api/auth/refresh-token',
+            { refreshToken },
+            {
+              headers: { 'Content-Type': 'application/json' },
+            },
+          );
           const { accessToken, newRefreshToken } = response.data;
 
-          useAuthStore.getState().setTokens(accessToken, newRefreshToken);
+          cookieStore.set('token', accessToken, { maxAge: 900 });
+          cookieStore.set('refreshToken', newRefreshToken, {
+            maxAge: 900 * 24 * 7,
+          });
           processQueue(null, accessToken);
-          
+
           originalRequest.headers.Authorization = `Bearer ${accessToken}`;
           return apiClient(originalRequest);
         } catch (refreshError) {
           processQueue(refreshError as Error);
-          useAuthStore.getState().logout();
-          window.location.href = '/auth/login';
+          // Redirect to login page after logout
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          cookieStore.getAll().forEach((cookie: any) => {
+            cookieStore.delete(cookie.name);
+          });
+          if (typeof window !== 'undefined') {
+            window.location.href = '/auth/login';
+          }
           return Promise.reject(refreshError);
         } finally {
           isRefreshing = false;
@@ -94,6 +119,6 @@ export const setupAuthInterceptor = (apiClient: AxiosInstance) => {
       }
 
       return Promise.reject(error);
-    }
+    },
   );
 };

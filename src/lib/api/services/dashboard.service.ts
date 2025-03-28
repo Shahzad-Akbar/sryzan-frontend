@@ -23,8 +23,8 @@ export const dashboardService = {
     return response.data;
   },
 
-//   searchDishes: async (query: string) => {
-//     const response = await apiClient.get<ApiResponse<Dish[]>>(`${API_ENDPOINTS.SEARCH_DISHES}?q=${query}`);
-//     return response.data;
-//   }
+  //   searchDishes: async (query: string) => {
+  //     const response = await apiClient.get<ApiResponse<Dish[]>>(`${API_ENDPOINTS.SEARCH_DISHES}?q=${query}`);
+  //     return response.data;
+  //   }
 };

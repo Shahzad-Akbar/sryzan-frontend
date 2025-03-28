@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
+import { Eye, EyeOff } from 'lucide-react';
+import { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 // import { useAuthStore } from "@/store/auth.store";
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   // const { login, isLoading, error, resendVerificationEmail } = useAuthStore();
@@ -41,7 +41,7 @@ export default function LoginPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-        },  
+        },
         body: JSON.stringify({ email, password }),
       });
 
@@ -54,7 +54,6 @@ export default function LoginPage() {
 
       // At successful login redirect user to dashboard
       router.push('/dashboard');
-
     } catch (error) {
       console.error('Login error:', error);
       setFormError('An error occurred during login. Please try again.');
@@ -72,9 +71,7 @@ export default function LoginPage() {
           </Link>
         </div>
         <div className="w-full ml-20 my-5 py-5 px-20">
-          <h2 className="text-40 font-poppins font-semibold text-neutral mb-2">
-            Login
-          </h2>
+          <h2 className="text-40 font-poppins font-semibold text-neutral mb-2">Login</h2>
           <p className="text-neutral/75 text-lg font-normal mb-8">
             Login to access your sryzans account
           </p>
@@ -119,8 +116,8 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-6 py-4 rounded-[32px] text-[#1C1B1F] placeholder:text-[#1C1B1F] border border-[#E5E7EB] focus:outline-none focus:border-primary-2 pt-4 pb-2"
               />
-              <label 
-                htmlFor="email" 
+              <label
+                htmlFor="email"
                 className="absolute left-6 top-0 text-sm text-[#1C1B1F] bg-white px-2 translate-y-[-50%]"
               >
                 Email
@@ -129,14 +126,14 @@ export default function LoginPage() {
 
             <div className="relative">
               <input
-                type={showPassword ? "text" : "password"}
+                type={showPassword ? 'text' : 'password'}
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-6 py-4 rounded-[32px] text-[#1C1B1F] placeholder:text-[#1C1B1F] border border-[#E5E7EB] focus:outline-none focus:border-primary-2 pt-4 pb-2"
               />
-              <label 
-                htmlFor="password" 
+              <label
+                htmlFor="password"
                 className="absolute left-6 top-0 text-sm text-[#1C1B1F] bg-white px-2 translate-y-[-50%]"
               >
                 Password
@@ -146,7 +143,11 @@ export default function LoginPage() {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-6 top-1/2 -translate-y-1/2"
               >
-                {showPassword ? <EyeOff className="text-[#666666]" /> : <Eye className="text-[#666666]" />}
+                {showPassword ? (
+                  <EyeOff className="text-[#666666]" />
+                ) : (
+                  <Eye className="text-[#666666]" />
+                )}
               </button>
             </div>
 
@@ -161,10 +162,7 @@ export default function LoginPage() {
                   Remember me
                 </label>
               </div>
-              <Link
-                href="/forgot-password"
-                className="text-sm font-semibold text-secondary-1"
-              >
+              <Link href="/forgot-password" className="text-sm font-semibold text-secondary-1">
                 Forgot Password
               </Link>
             </div>
@@ -174,13 +172,13 @@ export default function LoginPage() {
               disabled={isLoading}
               className="w-full bg-primary-2 text-neutral-white py-4 rounded-full hover:opacity-90 transition-opacity text-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isLoading ? "Logging in..." : "Login"}
+              {isLoading ? 'Logging in...' : 'Login'}
             </button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-neutral">
-              Don&apos;t have an account?{" "}
+              Don&apos;t have an account?{' '}
               <Link href="/auth/signup" className="font-semibold text-secondary-1">
                 Sign up
               </Link>

@@ -9,29 +9,31 @@ export const useUIStore = create<UIStore>((set) => ({
   toast: {
     message: '',
     type: 'info',
-    isVisible: false
+    isVisible: false,
   },
-  
+
   setLeftSidebarOpen: (open) => set({ leftSidebarOpen: open }),
   setRightSidebarOpen: (open) => set({ rightSidebarOpen: open }),
   setLoading: (loading) => set({ isLoading: loading }),
-  
+
   showModal: (modalId) => set({ activeModal: modalId }),
   hideModal: () => set({ activeModal: null }),
-  
-  showToast: (message, type) => set({
-    toast: {
-      message,
-      type,
-      isVisible: true
-    }
-  }),
-  
-  hideToast: () => set({
-    toast: {
-      message: '',
-      type: 'info',
-      isVisible: false
-    }
-  })
+
+  showToast: (message, type) =>
+    set({
+      toast: {
+        message,
+        type,
+        isVisible: true,
+      },
+    }),
+
+  hideToast: () =>
+    set({
+      toast: {
+        message: '',
+        type: 'info',
+        isVisible: false,
+      },
+    }),
 }));

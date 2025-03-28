@@ -42,9 +42,7 @@ export function Sidebar() {
                   <Link
                     href={item.href}
                     className={`flex items-center px-4 py-2 text-sm ${
-                      isActive
-                        ? 'text-primary-2 bg-primary-2/10'
-                        : 'text-neutral hover:bg-gray-50'
+                      isActive ? 'text-primary-2 bg-primary-2/10' : 'text-neutral hover:bg-gray-50'
                     }`}
                   >
                     <Icon size={20} className="mr-3" />

@@ -16,12 +16,12 @@ export interface AuthStore {
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
-  
+
   setUser: (user: User | null) => void;
   setTokens: (accessToken: string | null, refreshToken: string | null) => void;
   setError: (error: string | null) => void;
   setLoading: (loading: boolean) => void;
-  
+
   login: (email: string, password: string) => Promise<void>;
   register: (userData: { email: string; password: string; name: string }) => Promise<void>;
   forgotPassword: (email: string) => Promise<void>;

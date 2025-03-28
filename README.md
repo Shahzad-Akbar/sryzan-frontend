@@ -38,6 +38,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 ## Environment Setup
 
 1. Copy `.env.example` to `.env`:
+
 ```bash
 cp .env.example .env
 ```

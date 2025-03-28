@@ -1,6 +1,6 @@
-import Image from 'next/image'
-import { Star, Heart, ShoppingCart, ChevronRight   } from 'lucide-react'
-import { popularDishes } from '../data'
+import Image from 'next/image';
+import { Star, Heart, ShoppingCart, ChevronRight } from 'lucide-react';
+import { popularDishes } from '../data';
 
 export function PopularDishesSection() {
   return (
@@ -26,7 +26,7 @@ export function PopularDishesSection() {
                 15% Off
               </span>
               <button className="absolute top-1 right-4 p-2 ">
-                <Heart fill='#DBDBDB' color='#DBDBDB' size={20} className="text-neutral/70" />
+                <Heart fill="#DBDBDB" color="#DBDBDB" size={20} className="text-neutral/70" />
               </button>
             </div>
             <div className="mt-4">
@@ -47,5 +47,5 @@ export function PopularDishesSection() {
         ))}
       </div>
     </div>
-  )
+  );
 }

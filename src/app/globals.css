@@ -6,11 +6,11 @@
   /* Primary Colors */
   --primary: rgb(255, 107, 107);
   --primary-2: rgb(255, 165, 0);
-  
+
   /* Secondary Colors */
   --secondary-1: rgb(78, 205, 196);
   --secondary-2: rgb(255, 209, 102);
-  
+
   /* Neutral Colors */
   --neutral: rgb(45, 48, 71);
   --neutral-2: rgb(245, 245, 245);
@@ -21,7 +21,12 @@
   body {
     @apply font-open-sans text-neutral;
   }
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-poppins;
   }
 }

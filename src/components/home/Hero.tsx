@@ -1,5 +1,5 @@
-import Image from 'next/image'
-import { Search } from 'lucide-react'
+import Image from 'next/image';
+import { Search } from 'lucide-react';
 
 export default function Hero() {
   return (
@@ -7,19 +7,16 @@ export default function Hero() {
       <div className="flex items-start justify-between">
         <div className="max-w-xl">
           <div className="flex items-center gap-2 mt-6 mb-2">
-            <Image 
-              src="/Logo.svg" 
-              alt="sryzans" 
-              width={196} 
-              height={28} 
-            />
+            <Image src="/Logo.svg" alt="sryzans" width={196} height={28} />
           </div>
           <div className="mt-8">
             <h1 className="text-80 leading-105 font-semibold mb-4 whitespace-nowrap text-black">
-              Craving <span className='text-primary-2'>Delicious?</span>
+              Craving <span className="text-primary-2">Delicious?</span>
             </h1>
             <h2 className="text-80 leading-105 font-semibold mb-12 text-black">
-              Get Delivered<br />in <span className="text-secondary-1">Minutes!</span>
+              Get Delivered
+              <br />
+              in <span className="text-secondary-1">Minutes!</span>
             </h2>
           </div>
           <div className="relative">
@@ -64,5 +61,5 @@ export default function Hero() {
         </div>
       </div>
     </section>
-  )
+  );
 }

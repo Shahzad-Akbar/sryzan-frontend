@@ -23,7 +23,7 @@ export const API_ENDPOINTS = {
   CATEGORIES: '/api/categories',
   POPULAR_DISHES: '/api/dishes/popular',
   RECENT_ORDERS: '/api/orders/recent',
-  
+
   // Orders
   CREATE_ORDER: '/api/orders',
   ORDER_HISTORY: '/api/orders/history',

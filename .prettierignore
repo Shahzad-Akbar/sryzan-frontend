@@ -1,0 +1,17 @@
+# Ignore artifacts:
+build
+coverage
+
+# Ignore directories:
+docs
+node_modules
+
+# Ignore files:
+*.log
+*.lock
+
+# Ignore all files:
+!.gitignore
+
+# Ignore .next:
+!.next

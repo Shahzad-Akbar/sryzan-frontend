@@ -27,28 +27,27 @@ export function UserDropdown() {
   const handleLogout = async () => {
     try {
       setIsLoading(true);
-      // Calling logout api 
-    const res = await fetch('/api/auth/logout', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if (res.ok) {
-
-      router.push('/login');
+      // Calling logout api
+      const res = await fetch('/api/auth/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (res.ok) {
+        router.push('/login');
+      }
+    } catch (error) {
+      console.error('Error logging out:', error);
     }
-  } catch (error) {
-    console.error('Error logging out:', error);
   };
-  }
 
   if (isLoading) {
-   return (
-    <div>
-      <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-gray-900"></div>
-    </div> 
-   ) 
+    return (
+      <div>
+        <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-gray-900"></div>
+      </div>
+    );
   }
 
   return (
@@ -59,13 +58,13 @@ export function UserDropdown() {
       >
         <div className="w-8 h-8 rounded-full bg-primary-2/10 flex items-center justify-center">
           <span className="text-primary-2 font-semibold">
-          <Image
-                src="/assets/images/chef/modiji.jpg"
-                alt="Profile"
-                width={40}
-                height={40}
-                className="rounded-full"
-              />
+            <Image
+              src="/assets/images/chef/modiji.jpg"
+              alt="Profile"
+              width={40}
+              height={40}
+              className="rounded-full"
+            />
           </span>
         </div>
         {/* <span className="text-neutral font-medium">{user?.name || 'User'}</span> */}
@@ -81,7 +80,7 @@ export function UserDropdown() {
             {/* <p className="text-sm font-medium text-neutral">{user?.name}</p>
             <p className="text-xs text-neutral/70">{user?.email}</p> */}
           </div>
-          
+
           <button
             onClick={() => {
               setIsOpen(false);
@@ -92,7 +91,7 @@ export function UserDropdown() {
             <User size={16} />
             <span>Profile</span>
           </button>
-          
+
           <button
             onClick={() => {
               setIsOpen(false);
@@ -103,7 +102,7 @@ export function UserDropdown() {
             <Settings size={16} />
             <span>Settings</span>
           </button>
-          
+
           <button
             onClick={handleLogout}
             className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center space-x-2"

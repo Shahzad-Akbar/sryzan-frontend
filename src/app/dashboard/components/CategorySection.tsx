@@ -1,6 +1,6 @@
-import Image from 'next/image'
-import { ChevronRight } from 'lucide-react'
-import { categories } from '../data'
+import Image from 'next/image';
+import { ChevronRight } from 'lucide-react';
+import { categories } from '../data';
 
 export function CategorySection() {
   return (
@@ -31,5 +31,5 @@ export function CategorySection() {
         ))}
       </div>
     </div>
-  )
+  );
 }
