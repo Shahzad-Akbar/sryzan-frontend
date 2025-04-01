@@ -17,13 +17,18 @@ let refreshSubscribers: ((token: string) => void)[] = [];
 // Function to refresh token
 const refreshToken = async () => {
   const cookieStore = await cookies();
+  const rf = cookieStore.get('refreshToken')?.value;
+  if (!refreshToken) {
+    throw new Error('No refresh token available');
+  }
+  console.log('Refreshing token', rf);
   try {
     const response = await axios.post(
       API_BASE_URL + API_ENDPOINTS.REFRESH_TOKEN,
-      {},
+      { refreshToken: rf },
       { withCredentials: true },
     );
-    const { accessToken, refreshToken } = response.data.access_token;
+    const { accessToken, refreshToken } = response.data;
     cookieStore.set('token', accessToken, { maxAge: 900 });
     cookieStore.set('refreshToken', refreshToken, { maxAge: 604800 });
     return accessToken;

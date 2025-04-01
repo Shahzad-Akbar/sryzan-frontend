@@ -19,6 +19,12 @@ export const API_ENDPOINTS = {
   USER_PROFILE: '/api/user/profile',
   UPDATE_PROFILE: '/api/user/profile',
 
+  // Restaurant
+  RESTAURANTS: '/api/restaurants',
+  RESTAURANT_DETAILS: '/api/restaurants/:id',
+  RESTAURANT_MENU: '/api/restaurants/:id/menu',
+  RESTAURANT_ORDERS: '/api/restaurants/:id/orders',
+
   // Food
   CATEGORIES: '/api/categories',
   POPULAR_DISHES: '/api/dishes/popular',
@@ -32,7 +38,7 @@ export const API_ENDPOINTS = {
   ADMIN_DASHBOARD_STATS: '/api/admin/stats',
   ADMIN_USERS: '/api/admin/users',
   ADMIN_UPDATE_USER: '/api/admin/users',
-  ADMIN_DELETE_USER: '/api/admin/users/:id',
+  ADMIN_DELETE_USER: '/api/admin/users',
   ADMIN_GET_RESTAURANTS: '/api/admin/restaurants',
   ADMIN_CREATE_RESTAURANT: '/api/admin/restaurants',
   ADMIN_UPDATE_RESTAURANT: '/api/admin/restaurants/:id',

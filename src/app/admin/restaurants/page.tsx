@@ -3,15 +3,16 @@
 import { useState, useEffect } from 'react';
 import { Store, Edit2, Search, Plus } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
+import RestaurantModal from '@/components/modals/RestaurantModal';
 
 interface Restaurant {
   id: number;
   name: string;
   description: string;
   address: string;
-  rating: number;
+  email: string;
+  phone: string;
   isActive: boolean;
-  createdAt: string;
 }
 
 export default function RestaurantsPage() {
@@ -27,10 +28,17 @@ export default function RestaurantsPage() {
     try {
       setLoading(true);
       const response = await fetch(`/api/admin/restaurants?page=${page}&search=${search}&limit=10`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch restaurants');
+      }
       const data = await response.json();
-      if (data.success) {
-        setRestaurants(data.data);
-        setTotalPages(data.pagination.totalPages);
+      console.log(data.data);
+      const restaurantsData = data.data;
+      if (data && data.data) {
+        setRestaurants(restaurantsData);
+        setTotalPages(restaurantsData.length / 10);
+      } else {
+        throw new Error('Invalid data structure');
       }
     } catch (error) {
       toast({
@@ -38,6 +46,7 @@ export default function RestaurantsPage() {
         description: 'Failed to fetch restaurants',
         variant: 'destructive',
       });
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -45,7 +54,33 @@ export default function RestaurantsPage() {
 
   useEffect(() => {
     fetchRestaurants();
-  }, [page, search]);
+  }, [page, search, editingRestaurant]);
+
+  const handleCreateRestaurant = async (restaurantData: Omit<Restaurant, 'id' | 'createdAt'>) => {
+    try {
+      const response = await fetch('/api/admin/restaurants', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(restaurantData),
+      });
+      const data = await response.json();
+      if (data.success) {
+        toast({
+          title: 'Success',
+          description: 'Restaurant created successfully',
+        });
+        setEditingRestaurant(null);
+        fetchRestaurants();
+      }
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to create restaurant',
+        variant: 'destructive',
+      });
+      console.error(error);
+    }
+  };
 
   const handleUpdateRestaurant = async (restaurantId: number, updates: Partial<Restaurant>) => {
     try {
@@ -68,6 +103,13 @@ export default function RestaurantsPage() {
         description: 'Failed to update restaurant',
         variant: 'destructive',
       });
+      console.error(error);
+    }
+  };
+
+  const handlePageChange = (pageNum: number) => {
+    if (pageNum > 0 && pageNum <= totalPages) {
+      setPage(pageNum);
     }
   };
 
@@ -107,12 +149,6 @@ export default function RestaurantsPage() {
                 Address
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Rating
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Status
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Actions
               </th>
             </tr>
@@ -148,25 +184,10 @@ export default function RestaurantsPage() {
                     {restaurant.address}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <div className="flex items-center">
-                      <span className="text-yellow-500">
-                        {'★'.repeat(Math.floor(restaurant.rating))}
-                        {'☆'.repeat(5 - Math.floor(restaurant.rating))}
-                      </span>
-                      <span className="ml-2">{restaurant.rating.toFixed(1)}</span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <span
-                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${restaurant.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}
-                    >
-                      {restaurant.isActive ? 'Active' : 'Inactive'}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <button
                       onClick={() => setEditingRestaurant(restaurant)}
                       className="text-blue-600 hover:text-blue-900"
+                      aria-label={`Edit ${restaurant.name}`}
                     >
                       <Edit2 className="h-5 w-5" />
                     </button>
@@ -183,7 +204,7 @@ export default function RestaurantsPage() {
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
             <button
               key={pageNum}
-              onClick={() => setPage(pageNum)}
+              onClick={() => handlePageChange(pageNum)}
               className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${pageNum === page ? 'bg-blue-50 border-blue-500 text-blue-600 z-10' : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'}`}
             >
               {pageNum}
@@ -191,6 +212,21 @@ export default function RestaurantsPage() {
           ))}
         </nav>
       </div>
+
+      {editingRestaurant && (
+        <RestaurantModal
+          isOpen={true}
+          onClose={() => {
+            setEditingRestaurant(null);
+          }}
+          onSubmit={
+            editingRestaurant.id
+              ? handleUpdateRestaurant.bind(null, editingRestaurant.id)
+              : handleCreateRestaurant
+          }
+          restaurant={editingRestaurant.id ? editingRestaurant : undefined}
+        />
+      )}
     </div>
   );
 }

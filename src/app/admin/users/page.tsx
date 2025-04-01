@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { User, Edit2, Search } from 'lucide-react';
+import { User, Edit2, Search, Trash2, LoaderCircle } from 'lucide-react';
 import { UserEditModal } from '@/components/user-edit-modal';
 import { useToast } from '@/components/ui/use-toast';
 
@@ -30,9 +30,9 @@ export default function UsersPage() {
       if (!response.ok) throw new Error('Failed to fetch users');
 
       const data = await response.json();
-      const userData = data.data; // Assuming the data is an array of users
+      const userData = data.data;
       setUsers(userData);
-      setTotalPages(Math.ceil(data.totalUsers / 10)); // Assuming totalUsers is returned
+      setTotalPages(userData.length);
     } catch (error) {
       toast({
         title: 'Error',
@@ -47,11 +47,10 @@ export default function UsersPage() {
 
   useEffect(() => {
     fetchUsers();
-  }, [page, search]);
+  }, [page, search, editingUser]);
 
   const handleUpdateUser = async (userId: number, updates: Partial<User>) => {
     try {
-      // sending userId in url as userId
       const response = await fetch(`/api/admin/users?userId=${userId}`, {
         method: 'PUT',
         headers: {
@@ -66,7 +65,7 @@ export default function UsersPage() {
       if (data.success) {
         toast({
           title: 'Success',
-          description: 'User updated successfully',
+          description: 'User  updated successfully',
         });
         setEditingUser(null);
         fetchUsers();
@@ -78,6 +77,38 @@ export default function UsersPage() {
         variant: 'destructive',
       });
       console.error(error);
+    }
+  };
+
+  const handleDeleteUser = async (userId: number) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this user?');
+    if (!confirmDelete) return;
+
+    try {
+      const response = await fetch(`/api/admin/users?userId=${userId}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to delete user');
+      }
+      const data = await response.json();
+      if (data.success) {
+        toast({
+          title: 'Success',
+          description: 'User  deleted successfully',
+        });
+        // Refresh the user list after deletion
+        fetchUsers();
+      }
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to delete user',
+        variant: 'destructive',
+      });
+      console.error(error);
+    } finally {
+      fetchUsers();
     }
   };
 
@@ -128,7 +159,9 @@ export default function UsersPage() {
             {loading ? (
               <tr>
                 <td colSpan={5} className="px-6 py-4 text-center">
-                  Loading...
+                  <div className="flex w-full justify-center items-center">
+                    <LoaderCircle className="animate-spin h-12 w-12 text-blue-600" />
+                  </div>
                 </td>
               </tr>
             ) : users?.length === 0 ? (
@@ -171,6 +204,13 @@ export default function UsersPage() {
                       className="text-blue-600 hover:text-blue-900"
                     >
                       <Edit2 className="h-5 w-5" />
+                    </button>
+
+                    <button
+                      onClick={() => handleDeleteUser(user.id)} // Call delete function with user ID
+                      className="ml-2 text-red-600 hover:text-red-900"
+                    >
+                      <Trash2 className="h-5 w-5" />
                     </button>
                   </td>
                 </tr>
