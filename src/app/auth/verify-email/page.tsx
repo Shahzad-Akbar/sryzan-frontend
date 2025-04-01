@@ -2,19 +2,21 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-// import { useAuthStore } from '@/store/auth.store';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
 export default function VerifyEmailPage() {
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [message, setMessage] = useState('');
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const token = searchParams.get('token');
 
   useEffect(() => {
     const verify = async () => {
       try {
-        const res = await fetch('/api/auth/verify-email');
+        const res = await fetch(`/api/auth/verify-email?token=${token}`);
         const data = await res.json();
         if (!res.ok) {
           setStatus('error');

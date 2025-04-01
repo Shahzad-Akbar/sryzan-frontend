@@ -67,7 +67,6 @@ export function UserEditModal({ user, onClose, onUpdate }: UserEditModalProps) {
             >
               <option value="user">User</option>
               <option value="admin">Admin</option>
-              <option value="moderator">Moderator</option>
             </select>
           </div>
 

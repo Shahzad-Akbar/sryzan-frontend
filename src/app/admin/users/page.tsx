@@ -27,17 +27,12 @@ export default function UsersPage() {
     try {
       setLoading(true);
       const response = await fetch(`/api/admin/users?page=${page}&search=${search}&limit=10`);
+      if (!response.ok) throw new Error('Failed to fetch users');
+
       const data = await response.json();
-      console.log(data); // Add this line to check the response data in the console
       const userData = data.data; // Assuming the data is an array of users
-      console.log(userData); // Add this line to check the response data in the console
-      if (response.ok) {
-        console.log('Setting users');
-        setUsers(userData);
-        setTotalPages(userData.length);
-        console.log('after setting users');
-        console.log(users);
-      }
+      setUsers(userData);
+      setTotalPages(Math.ceil(data.totalUsers / 10)); // Assuming totalUsers is returned
     } catch (error) {
       toast({
         title: 'Error',
@@ -56,11 +51,17 @@ export default function UsersPage() {
 
   const handleUpdateUser = async (userId: number, updates: Partial<User>) => {
     try {
-      const response = await fetch(`/api/admin/users/${userId}`, {
+      // sending userId in url as userId
+      const response = await fetch(`/api/admin/users?userId=${userId}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(updates),
       });
+      if (!response.ok) {
+        throw new Error('Failed to update user');
+      }
       const data = await response.json();
       if (data.success) {
         toast({
@@ -77,6 +78,12 @@ export default function UsersPage() {
         variant: 'destructive',
       });
       console.error(error);
+    }
+  };
+
+  const handlePageChange = (pageNum: number) => {
+    if (pageNum !== page) {
+      setPage(pageNum);
     }
   };
 
@@ -184,7 +191,7 @@ export default function UsersPage() {
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
             <button
               key={pageNum}
-              onClick={() => setPage(pageNum)}
+              onClick={() => handlePageChange(pageNum)}
               className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${pageNum === page ? 'bg-blue-50 border-blue-500 text-blue-600 z-10' : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'}`}
             >
               {pageNum}

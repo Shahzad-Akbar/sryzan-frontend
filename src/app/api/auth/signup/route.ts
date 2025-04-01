@@ -9,12 +9,16 @@ export async function POST(request: Request) {
   const cookieStore = await cookies();
 
   const body = await request.json();
-  const { email, password } = body;
+  const { email, password, firstName, lastName, phone, terms } = body;
+  const name = firstName + ' ' + lastName;
 
   try {
     const res = await apiClient.post(API_ENDPOINTS.REGISTER, {
       email,
       password,
+      name,
+      phone,
+      terms,
     });
     const { user, accessToken, refreshToken } = res.data;
 

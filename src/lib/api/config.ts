@@ -31,7 +31,7 @@ export const API_ENDPOINTS = {
   // Admin
   ADMIN_DASHBOARD_STATS: '/api/admin/stats',
   ADMIN_USERS: '/api/admin/users',
-  ADMIN_UPDATE_USER: '/api/admin/users/:id',
+  ADMIN_UPDATE_USER: '/api/admin/users',
   ADMIN_DELETE_USER: '/api/admin/users/:id',
   ADMIN_GET_RESTAURANTS: '/api/admin/restaurants',
   ADMIN_CREATE_RESTAURANT: '/api/admin/restaurants',
