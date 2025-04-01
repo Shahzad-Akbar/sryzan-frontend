@@ -166,7 +166,7 @@ export default function SignupPage() {
                 Registration Successful!
               </h2>
               <p className="text-neutral/70 text-lg mb-8">
-                We've sent a verification email to{' '}
+                We&apos;ve sent a verification email to{' '}
                 <span className="font-semibold text-neutral">{formData.email}</span>
                 .<br />
                 Please check your inbox and click the verification link to activate your account.
@@ -179,13 +179,23 @@ export default function SignupPage() {
                   Go to Login
                 </button>
                 <p className="text-sm text-neutral/70">
-                  Didn't receive the email?{' '}
+                  Didn&apos;t receive the email?{' '}
                   <button
                     type="button"
                     className="text-secondary-1 hover:underline"
                     onClick={async () => {
                       try {
-                        await resendVerificationEmail(formData.email);
+                        const res = await fetch('/api/auth/resend-verification-email', {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json',
+                          },
+                          body: JSON.stringify({ email: formData.email }),
+                        });
+                        if (!res.ok) {
+                          const data = await res.json();
+                          throw new Error(data.error || 'Failed to resend verification email');
+                        }
                         alert('Verification email sent! Please check your inbox.');
                       } catch (error) {
                         console.error('Failed to resend verification email:', error);

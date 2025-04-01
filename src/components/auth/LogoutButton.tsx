@@ -1,15 +1,22 @@
 'use client';
 
-import { useAuthStore } from '@/store/auth.store';
-import { useRouter } from 'next/navigation';
+import { toast } from '../ui/use-toast';
 
 export default function LogoutButton() {
-  const router = useRouter();
-  const logout = useAuthStore((state) => state.logout);
-
-  const handleLogout = () => {
-    logout();
-    router.push('/auth/login');
+  const handleLogout = async () => {
+    try {
+      const res = await fetch('/api/logout', {
+        method: 'POST',
+      });
+      if (res.ok) {
+        toast({
+          title: 'Logout successful',
+          description: 'You have been logged out successfully',
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

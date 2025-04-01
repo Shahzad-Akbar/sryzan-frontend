@@ -3,8 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, Users, Coffee, ShoppingBag, Settings, LogOut } from 'lucide-react';
-import { useAuthStore } from '@/store/auth.store';
-import { useRouter } from 'next/navigation';
+import { toast } from '@/components/ui/use-toast';
 
 const menuItems = [
   { icon: Home, label: 'Dashboard', href: '/admin' },
@@ -16,12 +15,18 @@ const menuItems = [
 
 export function Sidebar() {
   const pathname = usePathname();
-  const router = useRouter();
-  const logout = useAuthStore((state) => state.logout);
 
-  const handleLogout = () => {
-    logout();
-    router.push('/auth/login');
+  const handleLogout = async () => {
+    const res = await fetch('/api/logout', {
+      method: 'POST',
+    });
+
+    if (res.ok) {
+      toast({
+        title: 'Logout successful',
+        description: 'You have been logged out successfully',
+      });
+    }
   };
 
   return (

@@ -29,7 +29,6 @@ export interface AuthStore {
   verifyEmail: (token: string) => Promise<void>;
   resendVerificationEmail: (email: string) => Promise<void>;
   refreshAccessToken: () => Promise<void>;
-  logout: () => void;
 }
 
 export interface RegisterData {

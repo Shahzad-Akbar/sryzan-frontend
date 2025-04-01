@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 // Define route patterns
-const publicPaths = ['/auth/login', '/auth/signup'];
+const publicPaths = ['/auth/login', '/auth/signup', '/'];
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const protectedPaths = [
   '/dashboard',

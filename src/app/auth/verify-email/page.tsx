@@ -1,29 +1,26 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { useAuthStore } from '@/store/auth.store';
+import { useRouter } from 'next/navigation';
+// import { useAuthStore } from '@/store/auth.store';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function VerifyEmailPage() {
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [message, setMessage] = useState('');
-  const searchParams = useSearchParams();
   const router = useRouter();
-  const verifyEmail = useAuthStore((state) => state.verifyEmail);
 
   useEffect(() => {
-    const token = searchParams.get('token');
-    if (!token) {
-      setStatus('error');
-      setMessage('Invalid verification link');
-      return;
-    }
-
     const verify = async () => {
       try {
-        await verifyEmail(token);
+        const res = await fetch('/api/auth/verify-email');
+        const data = await res.json();
+        if (!res.ok) {
+          setStatus('error');
+          setMessage(data.message);
+          return;
+        }
         setStatus('success');
         setMessage('Email verified successfully! You can now log in.');
       } catch (error) {
@@ -33,7 +30,7 @@ export default function VerifyEmailPage() {
     };
 
     verify();
-  }, [searchParams, verifyEmail]);
+  }, []);
 
   return (
     <div className="min-h-screen flex">

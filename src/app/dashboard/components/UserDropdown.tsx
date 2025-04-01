@@ -2,16 +2,15 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { ChevronDown, LogOut, User, Settings } from 'lucide-react';
-// import { useAuthStore } from '@/store/auth.store';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { toast } from '@/components/ui/use-toast';
 
 export function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  // const { user, logout } = useAuthStore();
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -27,7 +26,6 @@ export function UserDropdown() {
   const handleLogout = async () => {
     try {
       setIsLoading(true);
-      // Calling logout api
       const res = await fetch('/api/auth/logout', {
         method: 'POST',
         headers: {
@@ -35,7 +33,10 @@ export function UserDropdown() {
         },
       });
       if (res.ok) {
-        router.push('/login');
+        toast({
+          title: 'Logout successful',
+          description: 'You have been logged out successfully',
+        });
       }
     } catch (error) {
       console.error('Error logging out:', error);

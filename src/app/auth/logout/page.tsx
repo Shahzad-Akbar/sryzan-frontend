@@ -1,27 +1,30 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/store/auth.store';
 import Image from 'next/image';
 import Link from 'next/link';
+import { toast } from '@/components/ui/use-toast';
 
 export default function LogoutPage() {
-  const router = useRouter();
-  const logout = useAuthStore((state) => state.logout);
-
   useEffect(() => {
     const performLogout = async () => {
       try {
-        await logout();
+        const res = await fetch('/api/logout', {
+          method: 'POST',
+        });
+        if (res.ok) {
+          toast({
+            title: 'Logout successful',
+            description: 'You have been logged out successfully',
+          });
+        }
       } catch (error) {
         console.error('Logout failed:', error);
-        router.push('/auth/login');
       }
     };
 
     performLogout();
-  }, [logout, router]);
+  });
 
   return (
     <div className="min-h-screen flex">
@@ -47,6 +50,7 @@ export default function LogoutPage() {
           alt="Logout background"
           fill
           className="object-cover"
+          loading="lazy"
           priority
         />
       </div>

@@ -4,7 +4,6 @@ import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-// import { useAuthStore } from "@/store/auth.store";
 import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
@@ -12,7 +11,6 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  // const { login, isLoading, error, resendVerificationEmail } = useAuthStore();
   const router = useRouter();
   const [formError, setFormError] = useState('');
 
