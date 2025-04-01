@@ -8,7 +8,7 @@ export default function Navbar() {
       <div className="container mx-auto px-4 py-8">
         <div className="flex items-center justify-between text-lg">
           <Link href="/" className="text-2xl font-bold text-primary-2">
-            <Image src="/sryzan.svg" alt="sryzans" width={184} height={44} />
+            <Image src="/images/sryzan.svg" alt="sryzans" width={184} height={44} />
           </Link>
 
           <div className="hidden md:flex items-center gap-8">

@@ -7,7 +7,7 @@ export default function Hero() {
       <div className="flex items-start justify-between">
         <div className="max-w-xl">
           <div className="flex items-center gap-2 mt-6 mb-2">
-            <Image src="/Logo.svg" alt="sryzans" width={196} height={28} />
+            <Image src="/images/Logo.svg" alt="sryzans" width={196} height={28} />
           </div>
           <div className="mt-8">
             <h1 className="text-80 leading-105 font-semibold mb-4 whitespace-nowrap text-black">
@@ -49,7 +49,7 @@ export default function Hero() {
         </div>
         <div className="relative">
           <Image
-            src="/assets.svg"
+            src="/images/assets.svg"
             alt="Food Categories"
             width={474}
             height={631}

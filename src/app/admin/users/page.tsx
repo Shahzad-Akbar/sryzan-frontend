@@ -32,7 +32,7 @@ export default function UsersPage() {
       const data = await response.json();
       const userData = data.data;
       setUsers(userData);
-      setTotalPages(userData.length);
+      setTotalPages(userData.length / 10);
     } catch (error) {
       toast({
         title: 'Error',

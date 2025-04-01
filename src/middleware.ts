@@ -13,7 +13,7 @@ const protectedPaths = [
 const adminPaths = ['/admin'];
 
 // Paths that should skip middleware processing
-const skipPaths = ['/api', '/_next', '/static', '/favicon.ico'];
+const skipPaths = ['/api', '/_next', '/static', '/public', '/images', '/assets', '/favicon.ico'];
 
 export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;

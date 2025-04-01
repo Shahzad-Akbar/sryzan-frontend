@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Store, Edit2, Search, Plus } from 'lucide-react';
+import { Store, Edit2, Search, Plus, Trash2 } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import RestaurantModal from '@/components/modals/RestaurantModal';
 
@@ -22,6 +22,7 @@ export default function RestaurantsPage() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [editingRestaurant, setEditingRestaurant] = useState<Restaurant | null>(null);
+  const [deletingRestaurant, setDeletingRestaurant] = useState<Restaurant | null>(null);
   const { toast } = useToast();
 
   const fetchRestaurants = async () => {
@@ -52,10 +53,6 @@ export default function RestaurantsPage() {
     }
   };
 
-  useEffect(() => {
-    fetchRestaurants();
-  }, [page, search, editingRestaurant]);
-
   const handleCreateRestaurant = async (restaurantData: Omit<Restaurant, 'id' | 'createdAt'>) => {
     try {
       const response = await fetch('/api/admin/restaurants', {
@@ -69,9 +66,9 @@ export default function RestaurantsPage() {
           title: 'Success',
           description: 'Restaurant created successfully',
         });
-        setEditingRestaurant(null);
-        fetchRestaurants();
       }
+      setEditingRestaurant(null);
+      fetchRestaurants();
     } catch (error) {
       toast({
         title: 'Error',
@@ -84,7 +81,7 @@ export default function RestaurantsPage() {
 
   const handleUpdateRestaurant = async (restaurantId: number, updates: Partial<Restaurant>) => {
     try {
-      const response = await fetch(`/api/admin/restaurants/${restaurantId}`, {
+      const response = await fetch(`/api/admin/restaurants?restaurantId=${restaurantId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updates),
@@ -107,11 +104,54 @@ export default function RestaurantsPage() {
     }
   };
 
+  const handleDeleteRestaurant = async () => {
+    if (!deletingRestaurant) return;
+
+    try {
+      const response = await fetch(`/api/admin/restaurants?restaurantId=${deletingRestaurant.id}`, {
+        method: 'DELETE',
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        toast({
+          title: 'Success',
+          description: 'Restaurant deleted successfully',
+        });
+
+        // Update state to remove the deleted restaurant
+        setRestaurants((prevRestaurants) =>
+          prevRestaurants.filter((restaurant) => restaurant.id !== deletingRestaurant.id),
+        );
+      } else {
+        toast({
+          title: 'Error',
+          description: 'Failed to delete restaurant',
+          variant: 'destructive',
+        });
+      }
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to delete restaurant',
+        variant: 'destructive',
+      });
+      console.error(error);
+    } finally {
+      setDeletingRestaurant(null); // Reset the deletion state
+    }
+  };
+
   const handlePageChange = (pageNum: number) => {
     if (pageNum > 0 && pageNum <= totalPages) {
       setPage(pageNum);
     }
   };
+
+  useEffect(() => {
+    fetchRestaurants();
+  }, [page, search, editingRestaurant, deletingRestaurant]);
 
   return (
     <div className="p-6">
@@ -191,6 +231,14 @@ export default function RestaurantsPage() {
                     >
                       <Edit2 className="h-5 w-5" />
                     </button>
+
+                    <button
+                      onClick={() => setDeletingRestaurant(restaurant)}
+                      className="text-blue-600 hover:text-blue-900"
+                      aria-label={`Edit ${restaurant.name}`}
+                    >
+                      <Trash2 className="h-5 w-5" />
+                    </button>
                   </td>
                 </tr>
               ))
@@ -226,6 +274,29 @@ export default function RestaurantsPage() {
           }
           restaurant={editingRestaurant.id ? editingRestaurant : undefined}
         />
+      )}
+
+      {deletingRestaurant && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-lg font-semibold">Confirm Deletion</h2>
+            <p>Are you sure you want to delete {deletingRestaurant.name}?</p>
+            <div className="flex justify-end mt-4">
+              <button
+                className="mr-2 px-4 py-2 bg-gray-300 rounded-lg"
+                onClick={() => setDeletingRestaurant(null)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                onClick={handleDeleteRestaurant}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

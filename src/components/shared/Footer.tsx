@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <Link href="/" className="text-2xl font-bold text-primary-2">
-              <Image src="/logo-black.svg" alt="sryzans" width={184} height={44} />
+              <Image src="/images/logo-black.svg" alt="sryzans" width={184} height={44} />
             </Link>
             <p className="text-neutral mt-4">
               System is cuisine food ordering platform. Discover the best food and drinks.

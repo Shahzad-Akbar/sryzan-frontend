@@ -35,7 +35,7 @@ export function LeftSidebar({ isOpen, onToggle }: LeftSidebarProps) {
       >
         <div className={`${isOpen ? 'block' : 'hidden'} mb-10 p-4`}>
           <Link href="/">
-            <Image src="/sryzan.svg" width={184} height={44} alt="sryzans" />
+            <Image src="/images/sryzan.svg" width={184} height={44} alt="sryzans" />
           </Link>
         </div>
 
