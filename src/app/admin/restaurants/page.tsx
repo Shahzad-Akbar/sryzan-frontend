@@ -5,7 +5,7 @@ import { Store, Edit2, Search, Plus, Trash2 } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import RestaurantModal from '@/components/modals/RestaurantModal';
 
-interface Restaurant {
+export interface Restaurant {
   id: number;
   name: string;
   description: string;
@@ -223,7 +223,7 @@ export default function RestaurantsPage() {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {restaurant.address}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 space-x-2">
                     <button
                       onClick={() => setEditingRestaurant(restaurant)}
                       className="text-blue-600 hover:text-blue-900"
@@ -237,7 +237,7 @@ export default function RestaurantsPage() {
                       className="text-blue-600 hover:text-blue-900"
                       aria-label={`Edit ${restaurant.name}`}
                     >
-                      <Trash2 className="h-5 w-5" />
+                      <Trash2 className="h-5 w-5 text-red-500" />
                     </button>
                   </td>
                 </tr>
