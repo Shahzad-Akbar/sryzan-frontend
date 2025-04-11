@@ -1,10 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, SetStateAction } from 'react';
 import Image from 'next/image';
 import { Star, Heart, ShoppingCart, ChevronRight } from 'lucide-react';
 import { toast } from '@/components/ui/use-toast';
-import type { Dish } from '@/types/api';
 
 interface Dish {
   id: number;
@@ -17,7 +16,7 @@ interface Dish {
   updatedAt: string;
 }
 
-export function PopularDishesSection(menuData: Dish[]) {
+export function PopularDishesSection(menuData: { menuData: SetStateAction<Dish[]>; }) {
   const [dishes, setDishes] = useState<Dish[]>([])
   const [favorites, setFavorites] = useState<Set<number>>(new Set());
 

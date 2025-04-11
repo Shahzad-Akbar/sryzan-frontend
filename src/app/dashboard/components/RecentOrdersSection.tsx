@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, SetStateAction } from 'react';
 import Image from 'next/image';
 import { Heart, ChevronRight } from 'lucide-react';
 
@@ -15,7 +15,8 @@ interface Orders {
   updatedAt: string;
 }
 
-export function RecentOrdersSection(menuData) {
+
+export function RecentOrdersSection(menuData: { menuData: SetStateAction<Orders[]>; }) {
   const [orders, setOrders] = useState<Orders[]>([])
   const [favorites, setFavorites] = useState<Set<number>>(new Set());
 
