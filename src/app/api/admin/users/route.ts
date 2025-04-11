@@ -119,7 +119,6 @@ export async function PUT(request: Request) {
   }
 }
 
-// Route to delete user by ID
 export async function DELETE(request: Request) {
   await setupAuthInterceptor(apiClient);
   const cookieStore = await cookies();

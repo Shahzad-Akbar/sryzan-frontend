@@ -15,6 +15,13 @@ export const API_ENDPOINTS = {
   REFRESH_TOKEN: '/api/auth/refresh-token',
   LOGOUT: '/api/auth/logout',
 
+  // Cart
+  GET_CART: '/api/cart',
+  ADD_TO_CART: '/api/cart/items',
+  REMOVE_FROM_CART: '/api/cart/items/:id',
+  UPDATE_CART_ITEM_QUANTITY: '/api/cart/items/:id',
+  CLEAR_CART: '/api/cart',
+
   // User
   USER_PROFILE: '/api/auth/profile',
   UPDATE_PROFILE: '/api/user/profile',
