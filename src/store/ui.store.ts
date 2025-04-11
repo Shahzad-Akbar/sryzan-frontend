@@ -3,7 +3,7 @@ import { UIStore } from '@/types/store';
 
 export const useUIStore = create<UIStore>((set) => ({
   leftSidebarOpen: true,
-  rightSidebarOpen: true,
+  rightSidebarOpen: false,
   isLoading: false,
   activeModal: null,
   toast: {

@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import Image from 'next/image';
 import { useUIStore } from '@/store/ui.store';
@@ -8,12 +9,34 @@ import { RightSidebar } from './components/RightSidebar';
 import { CategorySection } from './components/CategorySection';
 import { PopularDishesSection } from './components/PopularDishesSection';
 import { RecentOrdersSection } from './components/RecentOrdersSection';
-// import { useAuthStore } from '@/store/auth.store'
 
 export default function DashboardPage() {
   const { leftSidebarOpen, rightSidebarOpen, setLeftSidebarOpen, setRightSidebarOpen } =
     useUIStore();
-  // const { user } = useAuthStore();
+  const [loading, setLoading] = useState(true);
+  const [menuItems, setMenuItems] = useState([]);
+
+  const fetchMenuItems = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/dashboard');
+      if (!response.ok) {
+        throw new Error('Failed to fetch menu items');
+      }
+      const data = await response.json();
+      setMenuItems(data.data);
+    } catch (error) {
+      console.error('Error fetching menu items:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchMenuItems();
+  }, []);
+
+  console.log("Menu Items from dashboard page", menuItems);
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
@@ -50,9 +73,33 @@ export default function DashboardPage() {
               className="h-full w-full object-contain"
             />
           </div>
-          <CategorySection />
-          <PopularDishesSection />
-          <RecentOrdersSection />
+          {loading ? (
+            <div className="flex justify-center items-center h-40">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
+            </div>
+          ) : (
+            <>
+              <CategorySection />
+            </>
+          )}
+          {loading ? (
+            <div className="flex justify-center items-center h-40">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
+            </div>
+          ) : (
+            <>
+              <PopularDishesSection menuData={menuItems} />
+            </>
+          )}
+          {loading ? (
+            <div className="flex justify-center items-center h-40">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
+            </div>
+          ) : (
+            <>
+              <RecentOrdersSection menuData={menuItems} />
+            </>
+          )}
         </div>
       </div>
 

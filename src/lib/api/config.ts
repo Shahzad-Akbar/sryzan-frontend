@@ -16,7 +16,7 @@ export const API_ENDPOINTS = {
   LOGOUT: '/api/auth/logout',
 
   // User
-  USER_PROFILE: '/api/user/profile',
+  USER_PROFILE: '/api/auth/profile',
   UPDATE_PROFILE: '/api/user/profile',
 
   // Restaurant
@@ -25,10 +25,8 @@ export const API_ENDPOINTS = {
   RESTAURANT_MENU: '/api/restaurants/:id/menu',
   RESTAURANT_ORDERS: '/api/restaurants/:id/orders',
 
-  // Food
-  CATEGORIES: '/api/categories',
-  POPULAR_DISHES: '/api/dishes/popular',
-  RECENT_ORDERS: '/api/orders/recent',
+  // Menu Items
+  GET_MENU_ITEMS: '/api/menu-item',
 
   // Orders
   CREATE_ORDER: '/api/orders',
