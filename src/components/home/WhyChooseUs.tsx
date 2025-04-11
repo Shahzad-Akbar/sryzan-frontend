@@ -46,11 +46,11 @@ export default function WhyChooseUs() {
       <div className="flex justify-start items-center">
         {/* <div className="relative overflow-hidden w-[664px] h-[594px]"> */}
         <Image
-          src="/assets/images/temp/chef.svg"
+          src="/assets/images/temp/chef-zubair.jpg"
           alt="Chef"
           width={665}
           height={594}
-          className="object-cover w-[664px] h-[594px] "
+          className="object-contain rounded-full w-[664px] h-[594px] "
         />
       </div>
       <div className="flex flex-col justify-center items-start">

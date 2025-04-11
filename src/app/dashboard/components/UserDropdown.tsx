@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { ChevronDown, LogOut, User, Settings } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
+// import Image from 'next/image';
 import { toast } from '@/components/ui/use-toast';
 
 export function UserDropdown() {
@@ -38,6 +38,8 @@ export function UserDropdown() {
           description: 'You have been logged out successfully',
         });
       }
+      setIsLoading(false);
+      router.push('/auth/login');
     } catch (error) {
       console.error('Error logging out:', error);
     }
@@ -59,13 +61,14 @@ export function UserDropdown() {
       >
         <div className="w-8 h-8 rounded-full bg-primary-2/10 flex items-center justify-center">
           <span className="text-primary-2 font-semibold">
-            <Image
+            {/* <Image
               src="/assets/images/chef/modiji.jpg"
               alt="Profile"
               width={40}
               height={40}
               className="rounded-full"
-            />
+            /> */}
+            <User size={20} />
           </span>
         </div>
         {/* <span className="text-neutral font-medium">{user?.name || 'User'}</span> */}

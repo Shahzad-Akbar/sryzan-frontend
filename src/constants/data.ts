@@ -1,20 +1,18 @@
-import { title } from 'process';
-
 export const chefs = [
   {
     id: 1,
-    name: 'Zubair Shah',
-    image: '/assets/images/chef/amitji.jpg',
+    name: 'Zubair',
+    image: '/assets/images/chef/zubair.jpg',
   },
   {
     id: 2,
-    name: 'Rohit Modi',
-    image: '/assets/images/chef/modiji.jpg',
+    name: 'Zubair',
+    image: '/assets/images/chef/zubair.jpg',
   },
   {
     id: 3,
-    name: 'Saara AdityaNath',
-    image: '/assets/images/chef/yogiji.jpg',
+    name: 'Zubair',
+    image: '/assets/images/chef/zubair.jpg',
   },
 
   // Add more chefs

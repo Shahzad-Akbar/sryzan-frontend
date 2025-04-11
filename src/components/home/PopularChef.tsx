@@ -8,7 +8,7 @@ export default function PopularChef() {
 
       <div className="flex justify-center md:grid-cols-3 gap-8">
         {chefs.map((chef) => (
-          <div key={chef.id} className="relative group w-[400px] h-[400px]">
+          <div key={chef.id} className="relative group ">
             <div className="bg-[#79d0a6] rounded-lg p-4 transition-all">
               <Image
                 src={chef.image}
@@ -17,9 +17,9 @@ export default function PopularChef() {
                 height={200}
                 className="w-full h-auto rounded-2xl"
               />
-              <span className="absolute top-2 -left-0 bg-[#ff8500] text-white text-sm px-4 py-1.5 rounded-r-lg">
+              {/* <span className="absolute top-2 -left-0 bg-[#ff8500] text-white text-sm px-4 py-1.5 rounded-r-lg">
                 Government Approved
-              </span>
+              </span> */}
               <h3 className="text-xl font-semibold text-center mt-4">{chef.name}</h3>
             </div>
           </div>

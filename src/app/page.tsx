@@ -2,7 +2,7 @@ import Hero from '@/components/home/Hero';
 import WhatsCooking from '@/components/home/WhatsCooking';
 import WhyChooseUs from '@/components/home/WhyChooseUs';
 import MenuSection from '@/components/home/MenuSection';
-// import PopularChef from '@/components/home/PopularChef';
+import PopularChef from '@/components/home/PopularChef';
 import Footer from '@/components/shared/Footer';
 import Navbar from '@/components/shared/Navbar';
 
@@ -14,7 +14,7 @@ export default function Home() {
       <WhatsCooking />
       <WhyChooseUs />
       <MenuSection />
-      {/* <PopularChef /> */}
+      <PopularChef />
       <Footer />
     </main>
   );
