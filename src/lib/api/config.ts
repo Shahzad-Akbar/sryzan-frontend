@@ -17,8 +17,8 @@ export const API_ENDPOINTS = {
 
   // Cart
   GET_CART: '/api/cart',
-  ADD_TO_CART: '/api/cart/items',
-  REMOVE_FROM_CART: '/api/cart/items/:id',
+  ADD_TO_CART: '/api/cart/:userId/items',
+  REMOVE_FROM_CART: '/api/cart/',
   UPDATE_CART_ITEM_QUANTITY: '/api/cart/items/:id',
   CLEAR_CART: '/api/cart',
 
@@ -36,8 +36,9 @@ export const API_ENDPOINTS = {
   GET_MENU_ITEMS: '/api/menu-item',
 
   // Orders
-  CREATE_ORDER: '/api/orders',
-  ORDER_HISTORY: '/api/orders/history',
+  CREATE_ORDER: '/api/order',
+  GET_ORDERS: '/api/order',
+  GENERATE_INVOICE: '/api/order',
 
   // Admin
   ADMIN_DASHBOARD_STATS: '/api/admin/stats',

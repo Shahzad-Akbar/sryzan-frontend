@@ -2,7 +2,9 @@
 
 import { useState, useEffect, SetStateAction } from 'react';
 import Image from 'next/image';
-import { Heart, ChevronRight } from 'lucide-react';
+import { Heart, ChevronRight, ShoppingCart } from 'lucide-react';
+import { CartPayload } from '../page';
+import { Dish } from './PopularDishesSection';
 
 interface Orders {
   id: number;
@@ -16,13 +18,19 @@ interface Orders {
 }
 
 
-export function RecentOrdersSection(menuData: { menuData: SetStateAction<Orders[]>; }) {
+export const RecentOrdersSection = ({
+  menuData,
+  handleAddToCart
+}: {
+  menuData: Dish[];
+  handleAddToCart: (item: CartPayload) => void;
+}) => {
   const [orders, setOrders] = useState<Orders[]>([])
   const [favorites, setFavorites] = useState<Set<number>>(new Set());
 
   useEffect(() => {
-   setOrders(menuData.menuData)
-  }, []);
+   setOrders(menuData)
+  }, [menuData]);
 
   const toggleFavorite = (orderId: number) => {
     setFavorites((prev) => {
@@ -35,33 +43,6 @@ export function RecentOrdersSection(menuData: { menuData: SetStateAction<Orders[
       return newFavorites;
     });
   };
-
-  // if (loading) {
-  //   return (
-  //     <div>
-  //       <div className="flex justify-between items-center mb-4">
-  //         <div className="h-7 w-36 bg-gray-200 animate-pulse rounded" />
-  //         <div className="h-6 w-24 bg-gray-200 animate-pulse rounded" />
-  //       </div>
-  //       <div className="grid grid-cols-3 gap-6">
-  //         {[...Array(3)].map((_, index) => (
-  //           <div key={index} className="bg-white p-4 rounded-2xl">
-  //             <div className="relative">
-  //               <div className="w-full h-48 bg-gray-200 animate-pulse rounded-xl" />
-  //             </div>
-  //             <div className="mt-4">
-  //               <div className="h-6 w-32 bg-gray-200 animate-pulse rounded mb-2" />
-  //               <div className="flex items-center justify-between">
-  //                 <div className="h-6 w-20 bg-gray-200 animate-pulse rounded" />
-  //                 <div className="h-4 w-32 bg-gray-200 animate-pulse rounded" />
-  //               </div>
-  //             </div>
-  //           </div>
-  //         ))}
-  //       </div>
-  //     </div>
-  //   );
-  // }
 
   return (
     <div>
@@ -98,10 +79,17 @@ export function RecentOrdersSection(menuData: { menuData: SetStateAction<Orders[
               <h4 className="text-lg font-semibold text-neutral mb-2">{order.name}</h4>
               <div className="flex items-center justify-between">
                 <span className="text-xl font-bold text-black">₹{order.price}</span>
-                {/* <span className="text-sm text-neutral/70 flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-secondary-1"></span>
-                  {order.distance} • {order.time}
-                </span> */}
+                <button
+                  onClick={async () => {
+                    handleAddToCart({
+                      menuItemId: order.id,
+                      quantity: 1,
+                    });
+                  }}
+                  className="p-2.5 bg-secondary-1 rounded-full hover:opacity-90 transition-opacity"
+                >
+                  <ShoppingCart size={20} className="text-white" />
+                </button>
               </div>
             </div>
           </div>

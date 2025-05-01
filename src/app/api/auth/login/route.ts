@@ -15,6 +15,8 @@ export async function POST(request: Request) {
     const res = await apiClient.post(API_ENDPOINTS.LOGIN, { email, password });
     const { user, accessToken, refreshToken } = res.data;
 
+    cookieStore.set('userId', JSON.stringify(user.id), { maxAge: 604800 });
+    cookieStore.set('role', user.role, { maxAge: 604800 });
     cookieStore.set('token', accessToken, { maxAge: 900 });
     cookieStore.set('refreshToken', refreshToken, { maxAge: 604800 });
 

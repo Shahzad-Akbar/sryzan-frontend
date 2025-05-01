@@ -199,7 +199,7 @@ export default function OrdersPage() {
                 <TableCell>{order.id}</TableCell>
                 <TableCell>{format(new Date(order.createdAt), 'PPp')}</TableCell>
                 <TableCell>{order.restaurantId}</TableCell>
-                <TableCell>${order.totalAmount.toFixed(2)}</TableCell>
+                <TableCell>₹{order.totalAmount}</TableCell>
                 <TableCell>
                   <span
                     className={`px-2 py-1 rounded-full text-sm ${getStatusColor(order.status)}`}

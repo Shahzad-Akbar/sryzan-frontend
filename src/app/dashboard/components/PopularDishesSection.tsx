@@ -4,8 +4,9 @@ import { useState, useEffect, SetStateAction } from 'react';
 import Image from 'next/image';
 import { Star, Heart, ShoppingCart, ChevronRight } from 'lucide-react';
 import { toast } from '@/components/ui/use-toast';
+import { CartPayload } from '../page';
 
-interface Dish {
+export type Dish = {
   id: number;
   category: string;
   createdAt: string;
@@ -16,12 +17,18 @@ interface Dish {
   updatedAt: string;
 }
 
-export function PopularDishesSection(menuData: { menuData: SetStateAction<Dish[]>; }) {
+export const PopularDishesSection = ({
+  menuData,
+  handleAddToCart
+}: {
+  menuData: Dish[] ;
+  handleAddToCart: (item: CartPayload) => void;
+}) => {
   const [dishes, setDishes] = useState<Dish[]>([])
   const [favorites, setFavorites] = useState<Set<number>>(new Set());
 
   useEffect(() => {
-   setDishes(menuData.menuData);
+   setDishes(menuData);
   }, []);
 
   const toggleFavorite = (dishId: number) => {
@@ -36,41 +43,6 @@ export function PopularDishesSection(menuData: { menuData: SetStateAction<Dish[]
     });
   };
 
-  const addToCart = (dish: Dish) => {
-    // Implement cart functionality
-    toast({
-      title: 'Added to Cart',
-      description: `${dish.name} has been added to your cart.`,
-    });
-  };
-
-  // if (loading) {
-  //   return (
-  //     <div className="mb-8">
-  //       <div className="flex justify-between items-center mb-4">
-  //         <div className="h-7 w-40 bg-gray-200 animate-pulse rounded" />
-  //         <div className="h-6 w-24 bg-gray-200 animate-pulse rounded" />
-  //       </div>
-  //       <div className="grid grid-cols-3 gap-6">
-  //         {[...Array(3)].map((_, index) => (
-  //           <div key={index} className="bg-white p-4 rounded-2xl">
-  //             <div className="relative">
-  //               <div className="w-full h-48 bg-gray-200 animate-pulse rounded-xl" />
-  //             </div>
-  //             <div className="mt-4">
-  //               <div className="h-4 w-24 bg-gray-200 animate-pulse rounded mb-2" />
-  //               <div className="h-6 w-32 bg-gray-200 animate-pulse rounded mb-2" />
-  //               <div className="flex items-center justify-between">
-  //                 <div className="h-6 w-20 bg-gray-200 animate-pulse rounded" />
-  //                 <div className="h-10 w-10 bg-gray-200 animate-pulse rounded-full" />
-  //               </div>
-  //             </div>
-  //           </div>
-  //         ))}
-  //       </div>
-  //     </div>
-  //   );
-  // }
   return (
     <div className="mb-8">
       <div className="flex justify-between items-center mb-4">
@@ -115,7 +87,12 @@ export function PopularDishesSection(menuData: { menuData: SetStateAction<Dish[]
               <div className="flex items-center justify-between">
                 <span className="text-xl font-bold text-black">₹{dish.price}</span>
                 <button
-                  onClick={() => addToCart(dish)}
+                  onClick={async () => {
+                    handleAddToCart({
+                      menuItemId: dish.id,
+                      quantity: 1,
+                    });
+                  }}
                   className="p-2.5 bg-secondary-1 rounded-full hover:opacity-90 transition-opacity"
                 >
                   <ShoppingCart size={20} className="text-white" />

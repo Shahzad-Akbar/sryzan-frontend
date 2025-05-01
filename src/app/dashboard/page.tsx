@@ -10,6 +10,11 @@ import { CategorySection } from './components/CategorySection';
 import { PopularDishesSection } from './components/PopularDishesSection';
 import { RecentOrdersSection } from './components/RecentOrdersSection';
 
+export type CartPayload = {
+  menuItemId: number;
+  quantity: number;
+}
+
 export default function DashboardPage() {
   const { leftSidebarOpen, rightSidebarOpen, setLeftSidebarOpen, setRightSidebarOpen } =
     useUIStore();
@@ -32,11 +37,46 @@ export default function DashboardPage() {
     }
   };
 
+  const handleAddToCart = async (item: CartPayload) => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/cart', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(item),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to add item to cart');
+      }
+    } catch (error) {
+      console.error('Error adding item to cart:', error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const handleRemoveFromCart = async (itemId: number) => {
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/cart?itemId=${itemId}`, {
+        method: 'DELETE',
+      });
+      console.log('Response:', response);
+      if (!response.ok) {
+        throw new Error('Failed to remove item from cart');
+      }
+    } catch (error) {
+      console.error('Error removing item from cart:', error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
     fetchMenuItems();
   }, []);
-
-  console.log("Menu Items from dashboard page", menuItems);
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
@@ -88,7 +128,7 @@ export default function DashboardPage() {
             </div>
           ) : (
             <>
-              <PopularDishesSection menuData={menuItems} />
+              <PopularDishesSection menuData={menuItems} handleAddToCart={handleAddToCart} />
             </>
           )}
           {loading ? (
@@ -97,7 +137,7 @@ export default function DashboardPage() {
             </div>
           ) : (
             <>
-              <RecentOrdersSection menuData={menuItems} />
+              <RecentOrdersSection menuData={menuItems} handleAddToCart={handleAddToCart} />
             </>
           )}
         </div>
@@ -106,6 +146,8 @@ export default function DashboardPage() {
       <RightSidebar
         isOpen={rightSidebarOpen}
         onToggle={() => setRightSidebarOpen(!rightSidebarOpen)}
+        handleAddToCart={handleAddToCart}
+        handleRemoveFromCart={handleRemoveFromCart}
       />
     </div>
   );
