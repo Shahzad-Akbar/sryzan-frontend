@@ -54,7 +54,7 @@ export const API_ENDPOINTS = {
   ADMIN_UPDATE_MENU_ITEM: '/api/admin/menu-items',
   ADMIN_DELETE_MENU_ITEM: '/api/admin/menu-items',
   ADMIN_GET_ORDERS: '/api/admin/orders',
-  ADMIN_UPDATE_ORDER: '/api/admin/orders/:id',
-  ADMIN_DELETE_ORDER: '/api/admin/orders/:id',
+  ADMIN_UPDATE_ORDER: '/api/admin/orders',
+  ADMIN_DELETE_ORDER: '/api/admin/orders',
   ADMIN_ORDER_ANALYTICS: '/api/admin/analytics/orders',
 };

@@ -15,6 +15,22 @@
   --neutral: rgb(45, 48, 71);
   --neutral-2: rgb(245, 245, 245);
   --neutral-white: rgb(255, 255, 255);
+
+  /* Toast Variants */
+  --success: rgb(34, 197, 94);
+  --success-foreground: #ffffff;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --warning: #facc15;
+  --warning-foreground: #000000;
+
+  --info: #3b82f6;
+  --info-foreground: #ffffff;
+
+  --loading: #d1d5db;
+  --loading-foreground: #000000;
 }
 
 @layer base {

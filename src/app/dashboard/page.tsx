@@ -9,15 +9,10 @@ import { RightSidebar } from './components/RightSidebar';
 import { CategorySection } from './components/CategorySection';
 import { PopularDishesSection } from './components/PopularDishesSection';
 import { RecentOrdersSection } from './components/RecentOrdersSection';
-
-export type CartPayload = {
-  menuItemId: number;
-  quantity: number;
-}
+import { CartPayload } from '@/types/cart';
 
 export default function DashboardPage() {
-  const { leftSidebarOpen, rightSidebarOpen, setLeftSidebarOpen, setRightSidebarOpen } =
-    useUIStore();
+  const { leftSidebarOpen, rightSidebarOpen, setLeftSidebarOpen, setRightSidebarOpen } = useUIStore();
   const [loading, setLoading] = useState(true);
   const [menuItems, setMenuItems] = useState([]);
 

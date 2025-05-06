@@ -20,7 +20,6 @@ export async function GET(req: NextRequest) {
 
         // calling invoice generation api from backend
         const voiceResponse = await apiClient.get(`${API_ENDPOINTS.GENERATE_INVOICE}/${orderId}/invoice`);
-        console.log('Fetched invoice:', voiceResponse.data); // Log the fetched invoice
         return NextResponse.json(response.data);
       } catch (error) {
         console.error('Error fetching orders:', error);

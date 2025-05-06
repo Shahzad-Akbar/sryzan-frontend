@@ -16,6 +16,18 @@ export default {
         neutral: 'var(--neutral)',
         'neutral-2': 'var(--neutral-2)',
         'neutral-white': 'var(--neutral-white)',
+
+        // Toast variant colors
+        success: 'var(--success)',
+        'success-foreground': 'var(--success-foreground)',
+        destructive: 'var(--destructive)',
+        'destructive-foreground': 'var(--destructive-foreground)',
+        warning: 'var(--warning)',
+        'warning-foreground': 'var(--warning-foreground)',
+        info: 'var(--info)',
+        'info-foreground': 'var(--info-foreground)',
+        loading: 'var(--loading)',
+        'loading-foreground': 'var(--loading-foreground)',
       },
       fontFamily: {
         poppins: ['Poppins', 'sans-serif'],
