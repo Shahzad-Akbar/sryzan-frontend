@@ -12,8 +12,9 @@ import {
   Trash2,
 } from 'lucide-react';
 import { UserDropdown } from './UserDropdown';
-import { CartPayload } from '../page';
+
 import { useRouter } from 'next/navigation';
+import { CartPayload } from '@/types/cart';
 
 interface RightSidebarProps {
   isOpen: boolean;
@@ -85,6 +86,8 @@ export function RightSidebar({
   useEffect(() => {
     fetchCartItems();
   }, [handleAddToCart]);
+
+  console.log(cartItems)
   return (
     <div className="relative">
       <div
@@ -153,7 +156,8 @@ export function RightSidebar({
               <h3 className="font-medium mb-4 flex-shrink-0">Order Menu</h3>
               <div className="flex-1 overflow-y-auto pr-2">
                 <div className="space-y-4 mb-6">
-                  {cartItems.map((item, index) => (
+                  {Array.isArray(cartItems) && cartItems.length > 0 ? (
+                    cartItems.map((item, index) => (
                     <div key={index} className="flex flex-col items-center justify-between">
                       <div className="w-full flex justify-between items-center gap-3">
                         <div className="flex items-center gap-3">
@@ -184,7 +188,10 @@ export function RightSidebar({
                       </div>
                       <div className="mt-2 w-full h-[1px] bg-gray-200"></div>
                     </div>
-                  ))}
+                  ))
+                  ) : (
+                    <p className='text-center font-bold text-sm text-forground'>No items in cart</p>
+                  )}
                 </div>
               </div>
 

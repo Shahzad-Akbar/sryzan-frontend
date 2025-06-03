@@ -13,7 +13,7 @@ export async function POST(request: Request) {
 
   try {
     const res = await apiClient.post(API_ENDPOINTS.LOGIN, { email, password });
-    const { user, accessToken, refreshToken } = res.data;
+    const { user, accessToken, refreshToken } = res?.data;
 
     cookieStore.set('userId', JSON.stringify(user.id), { maxAge: 604800 });
     cookieStore.set('role', user.role, { maxAge: 604800 });

@@ -1,23 +1,23 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function CheckoutPageContent({ orderTotal, items, walletBalance }) {
-  const router = useRouter()
+  const router = useRouter();
 
-  const [loading, setLoading] = useState(false)
-  const [showSuccessPopup, setShowSuccessPopup] = useState(false)
-  const [invoiceUrl, setInvoiceUrl] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [invoiceUrl, setInvoiceUrl] = useState<string | null>(null);
 
-  const serviceCharge = 20.00
-  const totalWithService = orderTotal + serviceCharge
-  const isSufficientBalance = walletBalance >= totalWithService
+  const serviceCharge = 20.0;
+  const totalWithService = orderTotal + serviceCharge;
+  const isSufficientBalance = walletBalance >= totalWithService;
 
   const handlePlaceOrder = async () => {
-    if (!isSufficientBalance) return
-    setLoading(true)
+    if (!isSufficientBalance) return;
+    setLoading(true);
 
     try {
       const response = await fetch('/api/order', {
@@ -30,21 +30,26 @@ export default function CheckoutPageContent({ orderTotal, items, walletBalance }
           deliveryAddress: '123 Main St, City, State, ZIP',
           paymentMethod: 'upi',
         }),
-      })
+      });
 
-      if (!response.ok) throw new Error('Failed to place order')
+      if (!response.ok) throw new Error('Failed to place order');
 
       // ✅ Convert to blob and generate URL
-      const blob = await response.blob()
-      const url = window.URL.createObjectURL(blob)
-      setInvoiceUrl(url)
-      setShowSuccessPopup(true)
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      setInvoiceUrl(url);
+      setShowSuccessPopup(true);
+
+      setTimeout(() => {
+        setShowSuccessPopup(false);
+        router.push('/dashboard/orders');
+      }, 2000);
     } catch (error) {
-      console.error('Error placing order:', error)
+      console.error('Error placing order:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-neutral-2 py-12 px-4 sm:px-6 lg:px-8">
@@ -66,7 +71,9 @@ export default function CheckoutPageContent({ orderTotal, items, walletBalance }
           </div>
           <div className="flex justify-between mb-4 border-t pt-2">
             <span>Wallet Balance:</span>
-            <span className={`font-semibold ${isSufficientBalance ? 'text-green-600' : 'text-red-600'}`}>
+            <span
+              className={`font-semibold ${isSufficientBalance ? 'text-green-600' : 'text-red-600'}`}
+            >
               ₹{walletBalance.toFixed(2)}
             </span>
           </div>
@@ -100,11 +107,7 @@ export default function CheckoutPageContent({ orderTotal, items, walletBalance }
             </div>
 
             {invoiceUrl && (
-              <a
-                href={invoiceUrl}
-                download="invoice.pdf"
-                className="inline-block mt-4 btn-primary"
-              >
+              <a href={invoiceUrl} download="invoice.pdf" className="inline-block mt-4 btn-primary">
                 Download Invoice
               </a>
             )}
@@ -112,5 +115,5 @@ export default function CheckoutPageContent({ orderTotal, items, walletBalance }
         </div>
       )}
     </div>
-  )
+  );
 }

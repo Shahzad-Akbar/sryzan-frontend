@@ -7,8 +7,7 @@ import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function SignupPage() {
-  const router = useRouter();
-
+  
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -18,7 +17,8 @@ export default function SignupPage() {
     confirmPassword: '',
     terms: false,
   });
-
+  
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formError, setFormError] = useState('');
@@ -34,64 +34,38 @@ export default function SignupPage() {
     }));
   };
 
+  const validateForm = () => {
+    if (!formData.firstName.trim()) return 'Please enter your first name';
+    if (!formData.lastName.trim()) return 'Please enter your last name';
+    if (!formData.email) return 'Please enter your email address';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) return 'Please enter a valid email address';
+    if (!formData.password) return 'Please enter a password';
+    if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(formData.password))
+      return 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number';
+    if (formData.password !== formData.confirmPassword) return 'Passwords do not match';
+    if (!formData.terms) return 'Please accept the terms and conditions';
+    return null;
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setFormError('');
     setError(null);
     setIsLoading(true);
 
-    // Basic validation
-    if (!formData.firstName.trim()) {
-      setFormError('Please enter your first name');
-      return;
-    }
-    if (!formData.lastName.trim()) {
-      setFormError('Please enter your last name');
-      return;
-    }
-    if (!formData.email) {
-      setFormError('Please enter your email address');
-      return;
-    }
-    if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-      setFormError('Please enter a valid email address');
-      return;
-    }
-    if (!formData.password) {
-      setFormError('Please enter a password');
-      return;
-    }
-    // Password requirements: at least 8 characters, 1 uppercase, 1 lowercase, 1 number
-    if (!formData.password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/)) {
-      setFormError(
-        'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number',
-      );
-      return;
-    }
-    if (formData.password !== formData.confirmPassword) {
-      setFormError('Passwords do not match');
-      return;
-    }
-    if (!formData.terms) {
-      setFormError('Please accept the terms and conditions');
+    const validationError = validateForm();
+    if (validationError) {
+      setFormError(validationError);
+      setIsLoading(false);
       return;
     }
 
     try {
       const res = await fetch('/api/auth/signup', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-
-      console.log('Response status:', res);
-
-      if (res.status === 401) {
-        setFormError('Invalid email or password');
-        return;
-      }
 
       if (!res.ok) {
         const data = await res.json();
@@ -99,14 +73,9 @@ export default function SignupPage() {
         return;
       }
 
-      // Handle specific error cases
-      if (error?.includes('already exists')) {
-        setFormError('An account with this email already exists');
-      } else if (!error) {
-        setStatus('success');
-      }
+      setStatus('success');
     } catch (err) {
-      setFormError(error || 'Registration failed. Please try again.');
+      setFormError('Registration failed. Please try again.');
       console.error('Error during registration:', err);
     } finally {
       setIsLoading(false);

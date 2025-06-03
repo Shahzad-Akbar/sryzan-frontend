@@ -1,16 +1,22 @@
-// app/orders/[id]/page.tsx
 'use client'
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
-import { Order, OrderStatus } from '@/app/interfaces/orders'
+import { Order, OrderStatus } from '@/types/order'
+import formatDate from '@/utils/format_date'
+import formatTime from '@/utils/format_time'
+import numberToString from '@/utils/number_to_string'
+import stringToNumber from '@/utils/string_to_number'
+import Loader from '@/components/ui/loader'
+import { Info } from 'lucide-react'
 
 export default function OrderDetailPage() {
   const params = useParams()
   const router = useRouter()
   const orderId = params.id
+  console.log(orderId)
   
   const [order, setOrder] = useState<Order | null>(null)
   const [loading, setLoading] = useState(true)
@@ -19,7 +25,7 @@ export default function OrderDetailPage() {
   useEffect(() => {
     const fetchOrderDetails = async () => {
       try {
-        const response = await fetch(`/api/orders/${orderId}`)
+        const response = await fetch(`/api/order/${orderId}`)
         if (!response.ok) {
           throw new Error('Failed to fetch order details')
         }
@@ -38,9 +44,7 @@ export default function OrderDetailPage() {
   
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-neutral-2">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-2"></div>
-      </div>
+      <Loader />
     )
   }
   
@@ -48,12 +52,8 @@ export default function OrderDetailPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-neutral-2">
         <div className="bg-white p-8 rounded-xl shadow-md text-center max-w-md">
-          <div className="text-red-500 mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mx-auto">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="8" x2="12" y2="12"></line>
-              <line x1="12" y1="16" x2="12.01" y2="16"></line>
-            </svg>
+          <div className="text-red-500 mb-4 flex justify-center items-center">
+            <Info size={48} />
           </div>
           <h2 className="text-xl font-medium mb-2">Error Loading Order</h2>
           <p className="text-neutral/70 mb-6">{error || 'Order not found'}</p>
@@ -66,23 +66,10 @@ export default function OrderDetailPage() {
   }
   
   // Format date
-  const orderDate = new Date(order.createdAt)
-  const formattedDate = orderDate.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
+  const formattedDate = formatDate(order.createdAt);
+  const formattedTime = formatTime(order.createdAt);
   
-  const formattedTime = orderDate.toLocaleTimeString('en-US', {
-    hour: '2-digit',
-    minute: '2-digit',
-  })
-  
-  // Calculate order summary
-  const subtotal = order.items.reduce(
-    (sum, item) => sum + parseFloat(item.price) * item.quantity, 
-    0
-  )
+  const subtotal = stringToNumber(order.price)
   const serviceCharge = 20.00
   const total = parseFloat(order.totalAmount)
   
@@ -156,41 +143,6 @@ export default function OrderDetailPage() {
               </div>
             </div>
           )}
-          
-          {/* Order Items */}
-          <div className="p-6 border-b">
-            <h3 className="font-medium mb-4">Order Items</h3>
-            <div className="space-y-6">
-              {order.items.map((item) => (
-                <div key={item.id} className="flex items-center gap-4">
-                  <div className="w-20 h-20 bg-neutral-2 rounded-lg overflow-hidden relative flex-shrink-0">
-                    <Image 
-                      src={`/assets/images/menu/${item.MenuItem.name}.jpg`} 
-                      alt={item.MenuItem.name}
-                      fill
-                      className="object-cover"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src = '/assets/images/dishes/vegan-pizza.svg'; // Fallback image
-                      }}
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="font-medium">{item.MenuItem.name}</h4>
-                    <p className="text-sm text-neutral/70 mt-1">
-                      {item.MenuItem.description || 'Delicious food item'}
-                    </p>
-                    <p className="text-sm text-neutral/70 mt-1">
-                      Quantity: {item.quantity}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-medium">₹{parseFloat(item.price).toFixed(2)}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
           
           {/* Order Summary */}
           <div className="p-6">
