@@ -1,50 +1,71 @@
-'use client'
+'use client';
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useParams} from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { Order, OrderStatus } from '@/types/order';
 import formatDate from '@/utils/format_date';
 import formatTime from '@/utils/format_time';
 import stringToNumber from '@/utils/string_to_number';
 import Loader from '@/components/ui/loader';
 import { Info } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function OrderDetailPage() {
-  const params = useParams()
-  const orderId = params.id
-  console.log(orderId)
-  
-  const [order, setOrder] = useState<Order | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  
+  const params = useParams();
+  const orderId = params.id;
+  const router = useRouter();
+
+  const [order, setOrder] = useState<Order | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     const fetchOrderDetails = async () => {
       try {
-        const response = await fetch(`/api/order/${orderId}`)
+        const response = await fetch(`/api/order/${orderId}`);
         if (!response.ok) {
-          throw new Error('Failed to fetch order details')
+          throw new Error('Failed to fetch order details');
         }
-        const data = await response.json()
-        setOrder(data)
+        const data = await response.json();
+        setOrder(data?.data);
       } catch (error) {
-        console.error('Error fetching order details:', error)
-        setError('Could not load order details. Please try again later.')
+        console.error('Error fetching order details:', error);
+        setError('Could not load order details. Please try again later.');
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
+    };
+
+    fetchOrderDetails();
+  }, [orderId]);
+
+  const handleCancelOrder = async () => {
+    try {
+      const response = await fetch(`/api/order/${orderId}`, {
+        method: 'POST',
+        body: JSON.stringify({ status: 'cancelled' }),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      if (!response.ok) {
+        throw new Error('Failed to cancel order');
+      }
+      setOrder(null);
+      router.push('/dashboard/orders');
+    } catch (error) {
+      console.error('Error canceling order:', error);
+      setError('Could not cancel order. Please try again later.');
     }
-    
-    fetchOrderDetails()
-  }, [orderId])
-  
+  };
+
+  const handleBack = () => {
+    router.back();
+  };
+
   if (loading) {
-    return (
-      <Loader />
-    )
+    return <Loader />;
   }
-  
+
   if (error || !order) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-neutral-2">
@@ -54,35 +75,38 @@ export default function OrderDetailPage() {
           </div>
           <h2 className="text-xl font-medium mb-2">Error Loading Order</h2>
           <p className="text-neutral/70 mb-6">{error || 'Order not found'}</p>
-          <Link href="/orders" className="btn-primary inline-block">
-            Back to Orders
-          </Link>
+          <button
+            className="bg-primary-2 text-white px-4 py-2 rounded-full hover:bg-primary-1"
+            onClick={handleBack}
+          >
+            Back
+          </button>
         </div>
       </div>
-    )
+    );
   }
-  
+
   // Format date
   const formattedDate = formatDate(order.createdAt);
   const formattedTime = formatTime(order.createdAt);
-  
-  const subtotal = stringToNumber(order.price)
-  const serviceCharge = 20.00
-  const total = parseFloat(order.totalAmount)
-  
+
+  const subtotal = stringToNumber(order.price);
+  const serviceCharge = 20.0;
+  const total = parseFloat(order.totalAmount);
+
   return (
     <div className="min-h-screen bg-neutral-2 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold text-neutral">Order Details</h1>
-          <Link href="/orders" className="text-primary-2 hover:underline flex items-center gap-1">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M15 18l-6-6 6-6"/>
-            </svg>
-            Back to Orders
-          </Link>
+          <button
+            className="bg-primary-2 text-white px-4 py-2 rounded-full hover:bg-primary-1"
+            onClick={handleBack}
+          >
+            Back
+          </button>
         </div>
-        
+
         <div className="bg-white rounded-xl shadow-md overflow-hidden">
           {/* Order Header */}
           <div className="p-6 border-b">
@@ -92,17 +116,22 @@ export default function OrderDetailPage() {
                   <h2 className="text-xl font-semibold">Order #{order.id}</h2>
                   <StatusBadge status={order.status} />
                 </div>
-                <p className="text-neutral/70">{formattedDate} at {formattedTime}</p>
+                <p className="text-neutral/70">
+                  {formattedDate} at {formattedTime}
+                </p>
               </div>
-              
+
               {order.status === 'pending' && (
-                <button className="px-4 py-2 border border-red-500 text-red-500 rounded-lg hover:bg-red-50">
+                <button
+                  onClick={handleCancelOrder}
+                  className="px-4 py-2 border border-red-500 text-red-500 rounded-lg hover:bg-red-50"
+                >
                   Cancel Order
                 </button>
               )}
             </div>
           </div>
-          
+
           {/* Order Progress (for active orders) */}
           {['pending', 'preparing', 'ready'].includes(order.status) && (
             <div className="p-6 border-b bg-neutral-2/30">
@@ -110,37 +139,47 @@ export default function OrderDetailPage() {
               <div className="relative">
                 <div className="flex justify-between mb-2">
                   <div className="text-center flex-1">
-                    <div className={`w-6 h-6 mx-auto rounded-full flex items-center justify-center ${order.status !== 'pending' ? 'bg-secondary-1 text-white' : 'bg-neutral-2 text-neutral'}`}>
+                    <div
+                      className={`w-6 h-6 mx-auto rounded-full flex items-center justify-center ${order.status !== 'pending' ? 'bg-secondary-1 text-white' : 'bg-neutral-2 text-neutral'}`}
+                    >
                       {order.status !== 'pending' ? '✓' : '1'}
                     </div>
                     <p className="text-sm mt-1">Order Placed</p>
                   </div>
                   <div className="text-center flex-1">
-                    <div className={`w-6 h-6 mx-auto rounded-full flex items-center justify-center ${order.status === 'preparing' || order.status === 'ready' ? 'bg-secondary-1 text-white' : 'bg-neutral-2 text-neutral'}`}>
+                    <div
+                      className={`w-6 h-6 mx-auto rounded-full flex items-center justify-center ${order.status === 'preparing' || order.status === 'ready' ? 'bg-secondary-1 text-white' : 'bg-neutral-2 text-neutral'}`}
+                    >
                       {order.status === 'preparing' || order.status === 'ready' ? '✓' : '2'}
                     </div>
                     <p className="text-sm mt-1">Preparing</p>
                   </div>
                   <div className="text-center flex-1">
-                    <div className={`w-6 h-6 mx-auto rounded-full flex items-center justify-center ${order.status === 'ready' ? 'bg-secondary-1 text-white' : 'bg-neutral-2 text-neutral'}`}>
+                    <div
+                      className={`w-6 h-6 mx-auto rounded-full flex items-center justify-center ${order.status === 'ready' ? 'bg-secondary-1 text-white' : 'bg-neutral-2 text-neutral'}`}
+                    >
                       {order.status === 'ready' ? '✓' : '3'}
                     </div>
                     <p className="text-sm mt-1">Ready for Pickup</p>
                   </div>
                 </div>
                 <div className="absolute top-3 left-0 right-0 h-1 bg-neutral-2 -z-10">
-                  <div 
-                    className="h-full bg-secondary-1" 
-                    style={{ 
-                      width: order.status === 'pending' ? '0%' : 
-                             order.status === 'preparing' ? '50%' : '100%' 
+                  <div
+                    className="h-full bg-secondary-1"
+                    style={{
+                      width:
+                        order.status === 'pending'
+                          ? '0%'
+                          : order.status === 'preparing'
+                            ? '50%'
+                            : '100%',
                     }}
                   ></div>
                 </div>
               </div>
             </div>
           )}
-          
+
           {/* Order Summary */}
           <div className="p-6">
             <h3 className="font-medium mb-4">Payment Summary</h3>
@@ -162,9 +201,9 @@ export default function OrderDetailPage() {
               </div>
             </div>
           </div>
-          
+
           {/* Order Actions */}
-          <div className="p-6 bg-neutral-2/30 flex flex-wrap gap-3">
+          {/* <div className="p-6 bg-neutral-2/30 flex flex-wrap gap-3">
             <button className="px-4 py-2 border border-neutral/20 text-neutral rounded-lg hover:bg-white">
               Get Help
             </button>
@@ -174,11 +213,11 @@ export default function OrderDetailPage() {
                 Reorder
               </button>
             )}
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 // Status badge component (same as in the orders page)
@@ -188,14 +227,14 @@ function StatusBadge({ status }: { status: OrderStatus }) {
     preparing: { color: 'bg-yellow-100 text-yellow-800', label: 'Preparing' },
     ready: { color: 'bg-green-100 text-green-800', label: 'Ready for Pickup' },
     delivered: { color: 'bg-secondary-1 bg-opacity-10 text-secondary-1', label: 'Delivered' },
-    cancelled: { color: 'bg-red-100 text-red-800', label: 'Cancelled' }
-  }
-  
-  const config = statusConfig[status]
-  
+    cancelled: { color: 'bg-red-100 text-red-800', label: 'Cancelled' },
+  };
+
+  const config = statusConfig[status];
+
   return (
-    <span className={`${config.color} text-xs font-medium px-2.5 py-0.5 rounded-full`}>
-      {config.label}
+    <span className={`${config?.color} text-xs font-medium px-2.5 py-0.5 rounded-full`}>
+      {config?.label}
     </span>
-  )
+  );
 }

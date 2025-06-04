@@ -4,27 +4,27 @@ import { setupAuthInterceptor } from '@/lib/api/interceptors/auth.interceptor';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
-    try {
-        setupAuthInterceptor(apiClient);
-        const cookies = req.cookies;
-        const userId = cookies.get('userId')?.value; 
-    
-        if (!userId) {
-          return NextResponse.json({ error: 'Invalid request data' }, { status: 400 });
-        }
-    
-        const response = await apiClient.get(`${API_ENDPOINTS.GET_ORDERS}/${userId}`);
-        console.log('Fetched orders:', response.data); // Log the fetched orders
+  try {
+    setupAuthInterceptor(apiClient);
+    const cookies = req.cookies;
+    const userId = cookies.get('userId')?.value;
 
-        // const orderId = response.data[0].id;
+    if (!userId) {
+      return NextResponse.json({ error: 'Invalid request data' }, { status: 400 });
+    }
 
-        // calling invoice generation api from backend
-        // const voiceResponse = await apiClient.get(`${API_ENDPOINTS.GENERATE_INVOICE}/${orderId}/invoice`);
-        return NextResponse.json(response.data);
-      } catch (error) {
-        console.error('Error fetching orders:', error);
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
-      }
+    const response = await apiClient.get(`${API_ENDPOINTS.GET_ORDERS}/${userId}`);
+    console.log('Fetched orders:', response.data); // Log the fetched orders
+
+    // const orderId = response.data[0].id;
+
+    // calling invoice generation api from backend
+    // const voiceResponse = await apiClient.get(`${API_ENDPOINTS.GENERATE_INVOICE}/${orderId}/invoice`);
+    return NextResponse.json(response.data);
+  } catch (error) {
+    console.error('Error fetching orders:', error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  }
 }
 
 export async function POST(req: NextRequest) {
@@ -48,10 +48,15 @@ export async function POST(req: NextRequest) {
     const orderData = orderResponse.data;
     const orderId = orderData.id;
 
+    console.log(`${API_ENDPOINTS.GENERATE_INVOICE}/${orderId}/invoice`);
+
     // Step 2: Call invoice API
-    const invoiceResponse = await apiClient.get(`${API_ENDPOINTS.GENERATE_INVOICE}/${orderId}/invoice`, {
-      responseType: 'arraybuffer', // If PDF is binary
-    });
+    const invoiceResponse = await apiClient.get(
+      `${API_ENDPOINTS.GENERATE_INVOICE}/${orderId}/invoice`,
+      {
+        responseType: 'arraybuffer', // If PDF is binary
+      },
+    );
 
     // Step 3: Return the PDF as a blob
     return new NextResponse(invoiceResponse.data, {
@@ -66,5 +71,3 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
-
-

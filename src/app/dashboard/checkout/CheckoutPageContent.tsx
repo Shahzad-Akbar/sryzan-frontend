@@ -56,6 +56,10 @@ const CheckoutPageContent = ({ orderTotal, walletBalance }: CheckoutPageProps) =
     }
   };
 
+  const handleBack = () => {
+    router.back();
+  };
+
   return (
     <div className="min-h-screen bg-neutral-2 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
@@ -96,9 +100,14 @@ const CheckoutPageContent = ({ orderTotal, walletBalance }: CheckoutPageProps) =
             {loading ? 'Placing Order...' : 'Place Order'}
           </button>
 
-          <Link href="/cart" className="block text-center mt-4 text-blue-500 hover:underline">
-            Return to Cart
-          </Link>
+          <div className="flex justify-between mt-4">
+            <button onClick={handleBack} className="btn-primary">
+              Back
+            </button>
+            <Link href="/dashboard/orders" className="btn-primary">
+              View Orders
+            </Link>
+          </div>
         </div>
       </div>
 

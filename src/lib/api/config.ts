@@ -39,6 +39,7 @@ export const API_ENDPOINTS = {
   CREATE_ORDER: '/api/order',
   GET_ORDERS: '/api/order',
   GENERATE_INVOICE: '/api/order',
+  UPDATE_ORDER_STATUS: '/api/order',
 
   // Admin
   ADMIN_DASHBOARD_STATS: '/api/admin/stats',
