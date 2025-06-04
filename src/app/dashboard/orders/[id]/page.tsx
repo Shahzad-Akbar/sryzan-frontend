@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { Order, OrderStatus } from '@/types/order';
 import formatDate from '@/utils/format_date';
