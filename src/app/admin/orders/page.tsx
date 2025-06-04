@@ -1,7 +1,7 @@
 'use client';
 
 import { Loader2 } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
   Table,
   TableBody,
@@ -39,11 +39,7 @@ export default function OrdersPage() {
 
   const { toast } = useToast();
 
-  useEffect(() => {
-    fetchOrders();
-  }, [statusFilter, dateFilter]);
-
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
     setLoading(true);
     try {
       const params = new URLSearchParams({
@@ -73,7 +69,11 @@ export default function OrdersPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [statusFilter, dateFilter, toast]);
+
+  useEffect(() => {
+    fetchOrders();
+  }, [statusFilter, dateFilter, fetchOrders]);
 
   const handleStatusUpdate = async (orderId: number, newStatus: string) => {
     setLoading(true);
@@ -275,18 +275,8 @@ export default function OrdersPage() {
                   <p className="text-sm">{selectedOrder.restaurantId}</p>
                 </div>
                 <div>
-                  <Label>Items</Label>
-                  <div className="space-y-2">
-                    {selectedOrder.items.map((item, index) => (
-                      <div key={index} className="text-sm">
-                        {item.quantity}x {item.name} - ${(item.price * item.quantity).toFixed(2)}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div>
                   <Label>Total Amount</Label>
-                  <p className="text-sm">${selectedOrder.totalAmount.toFixed(2)}</p>
+                  <p className="text-sm">${selectedOrder?.totalAmount}</p>
                 </div>
                 <div>
                   <Label>Status</Label>

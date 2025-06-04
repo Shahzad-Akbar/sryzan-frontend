@@ -33,7 +33,7 @@ export default function VerifyEmailPage() {
     };
 
     verify();
-  }, []);
+  }, [token]);
 
   return (
     <div className="min-h-screen flex">

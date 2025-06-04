@@ -5,30 +5,30 @@ import {
   Bar,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
 
 interface BarChartProps {
-  data: Array<{ name: string; value: number }>;
+  data: { name: string; value: number }[];
   title: string;
 }
 
 export function BarChart({ data, title }: BarChartProps) {
+  // const chartData = Object.entries(data).map(([name, value]) => ({
+  //   name: name[0].toUpperCase() + name.slice(1),
+  //   value,
+  // }));
+
   return (
     <div className="h-[300px] w-full">
       <h3 className="text-lg font-medium leading-6 text-gray-900 mb-4">{title}</h3>
-      <ResponsiveContainer width="100%" height="100%">
-        <RechartsBarChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-          <CartesianGrid strokeDasharray="3 3" />
+      <ResponsiveContainer width="100%" height={300}>
+        <RechartsBarChart data={data}>
           <XAxis dataKey="name" />
           <YAxis />
-          <Tooltip
-            formatter={(value) => [value, 'Count']}
-            labelFormatter={(label) => `Status: ${label}`}
-          />
-          <Bar dataKey="value" fill="#8884d8" />
+          <Tooltip />
+          <Bar dataKey="value" fill="#82ca9d" />
         </RechartsBarChart>
       </ResponsiveContainer>
     </div>

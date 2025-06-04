@@ -4,7 +4,12 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-export default function CheckoutPageContent({ orderTotal, walletBalance }) {
+interface CheckoutPageProps {
+  orderTotal: number;
+  walletBalance: number;
+}
+
+const CheckoutPageContent = ({ orderTotal, walletBalance }: CheckoutPageProps) => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
@@ -117,3 +122,4 @@ export default function CheckoutPageContent({ orderTotal, walletBalance }) {
     </div>
   );
 }
+export default CheckoutPageContent;

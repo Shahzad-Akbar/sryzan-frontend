@@ -242,7 +242,6 @@ export function CheckoutPage({ orderTotal, items, walletBalance = 1200 }: Checko
 export default function CheckoutPageWrapper() {
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [orderTotal, setOrderTotal] = useState(0);
   const walletBalance = 1200
 
@@ -253,26 +252,13 @@ export default function CheckoutPageWrapper() {
         const response = await fetch('/api/cart');
         if (response.ok) {
           const data = await response.json();
-          setCartItems(data);
           setOrderTotal(
             data.reduce(
               (total: number, item: CartItem) => total + parseFloat(item.price) * item.quantity,
               0,
             ),
           );
-        } else {
-          // If API fails, try to use URL params as fallback
-          const itemsParam = searchParams.get('items');
-          const totalParam = searchParams.get('orderTotal');
-
-          if (itemsParam) {
-            setCartItems(JSON.parse(itemsParam));
-          }
-
-          if (totalParam) {
-            setOrderTotal(parseFloat(totalParam));
-          }
-        }
+        } 
 
         // Get wallet balance
         // const walletResponse = await fetch('/api/wallet')
@@ -302,7 +288,6 @@ export default function CheckoutPageWrapper() {
     <>
       <CheckoutPageContent
         orderTotal={orderTotal}
-        items={cartItems}
         walletBalance={walletBalance}
       />
     </>

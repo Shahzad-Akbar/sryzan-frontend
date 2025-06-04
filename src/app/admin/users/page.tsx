@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { User, Edit2, Search, Trash2, LoaderCircle } from 'lucide-react';
 import { UserEditModal } from '@/components/user-edit-modal';
 import { useToast } from '@/components/ui/use-toast';
@@ -23,7 +23,7 @@ export default function UsersPage() {
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const { toast } = useToast();
 
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     try {
       setLoading(true);
       const response = await fetch(`/api/admin/users?page=${page}&search=${search}&limit=10`);
@@ -43,11 +43,11 @@ export default function UsersPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [page, search, toast]);
 
   useEffect(() => {
     fetchUsers();
-  }, [page, search, editingUser]);
+  }, [page, search, editingUser, fetchUsers]);
 
   const handleUpdateUser = async (userId: number, updates: Partial<User>) => {
     try {

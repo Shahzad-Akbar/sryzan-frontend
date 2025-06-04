@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Store, Edit2, Search, Plus, Trash2 } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import RestaurantModal from '@/components/modals/RestaurantModal';
@@ -25,7 +25,7 @@ export default function RestaurantsPage() {
   const [deletingRestaurant, setDeletingRestaurant] = useState<Restaurant | null>(null);
   const { toast } = useToast();
 
-  const fetchRestaurants = async () => {
+  const fetchRestaurants = useCallback(async () => {
     try {
       setLoading(true);
       const response = await fetch(`/api/admin/restaurants?page=${page}&search=${search}&limit=10`);
@@ -51,7 +51,7 @@ export default function RestaurantsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [page, search, toast]);
 
   const handleCreateRestaurant = async (restaurantData: Omit<Restaurant, 'id' | 'createdAt'>) => {
     try {
@@ -151,7 +151,7 @@ export default function RestaurantsPage() {
 
   useEffect(() => {
     fetchRestaurants();
-  }, [page, search, editingRestaurant, deletingRestaurant]);
+  }, [page, search, editingRestaurant, deletingRestaurant, fetchRestaurants]);
 
   return (
     <div className="p-6">

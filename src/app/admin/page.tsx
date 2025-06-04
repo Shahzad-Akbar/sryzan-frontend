@@ -17,96 +17,74 @@ const stats = [
   { name: 'Revenue', icon: TrendingUp, value: '$0', bgColor: 'bg-yellow-500' },
 ];
 
+interface DashboardData {
+  dailyRevenue: { date: string; revenue: number }[];
+  ordersByStatus: { name: string; value: number }[];
+  recentOrders: {
+    id: number;
+    User: {
+      name: string;
+      email: string;
+    };
+    Restaurant: {
+      name: string;
+    };
+    status: string;
+    totalAmount: number;
+  }[];
+}
+
 export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
-  const [dashboardData, setDashboardData] = useState({
-    dailyRevenue: [
-      { date: '2024-01-01', revenue: 1200 },
-      { date: '2024-01-02', revenue: 1800 },
-      { date: '2024-01-03', revenue: 2400 },
-      { date: '2024-01-04', revenue: 2100 },
-      { date: '2024-01-05', revenue: 2800 },
-      { date: '2024-01-06', revenue: 3200 },
-      { date: '2024-01-07', revenue: 3600 },
-    ],
-    ordersByStatus: [
-      { name: 'Pending', value: 15 },
-      { name: 'Processing', value: 25 },
-      { name: 'Completed', value: 45 },
-      { name: 'Cancelled', value: 5 },
-    ],
-    recentOrders: [
-      {
-        id: 1,
-        customer: 'John Doe',
-        restaurant: 'Pizza Palace',
-        status: 'Completed',
-        amount: 45.99,
-      },
-      {
-        id: 2,
-        customer: 'Jane Smith',
-        restaurant: 'Burger Hub',
-        status: 'Processing',
-        amount: 32.5,
-      },
-      {
-        id: 3,
-        customer: 'Mike Johnson',
-        restaurant: 'Sushi Express',
-        status: 'Pending',
-        amount: 78.25,
-      },
-      {
-        id: 4,
-        customer: 'Sarah Wilson',
-        restaurant: 'Taco Time',
-        status: 'Completed',
-        amount: 25.99,
-      },
-      {
-        id: 5,
-        customer: 'Tom Brown',
-        restaurant: 'Pasta Place',
-        status: 'Processing',
-        amount: 56.75,
-      },
-    ],
-  });
+  const [dashboardData, setDashboardData] = useState<DashboardData>({
+    dailyRevenue: [],
+    ordersByStatus: [],
+    recentOrders: [],});
+  const [statusChatData, setStatusChatData] = useState<{ name: string; value: number }[]>([]);
 
-  useEffect(() => {
-    const fetchDashboardStats = async () => {
-      try {
-        setLoading(true);
+useEffect(() => {
+  const fetchDashboardStats = async () => {
+    try {
+      setLoading(true);
 
-        const res = await fetch('/api/admin/stats');
-        const data = await res.json();
+      const res = await fetch('/api/admin/stats');
+      const data = await res.json();
 
-        if (data.status === 500) {
-          setLoading(false);
-          return;
-        }
-
-        const statData = data.data;
-
-        setDashboardData({
-          dailyRevenue: statData.dailyRevenue,
-          ordersByStatus: statData.ordersByStatus,
-          recentOrders: statData.recentOrders,
-        });
-
-        stats[0].value = statData.totalUsers;
-        stats[1].value = statData.totalRestaurants;
-        stats[2].value = statData.totalOrders;
-        stats[3].value = statData.totalRevenue;
-      } catch (error) {
-        console.error('Error fetching dashboard stats:', error);
-      } finally {
+      if (data.status === 500) {
         setLoading(false);
+        return;
       }
-    };
-    fetchDashboardStats();
-  }, []);
+
+      const statData = data?.data;
+
+      setDashboardData({
+        dailyRevenue: statData.dailyRevenue,
+        ordersByStatus: statData.ordersByStatus,
+        recentOrders: statData.recentOrders,
+      });
+
+      stats[0].value = statData.totalUsers;
+      stats[1].value = statData.totalRestaurants;
+      stats[2].value = statData.totalOrders;
+      stats[3].value = statData.totalRevenue;
+
+      setStatusChatData(
+        Object.entries(statData.ordersByStatus).map(([status, count]) => ({
+          name: status.charAt(0).toUpperCase() + status.slice(1),
+          value: Number(count),
+        }))
+      );
+    } catch (error) {
+      console.error('Error fetching dashboard stats:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchDashboardStats();
+}, []);
+
+
 
   if (loading) {
     return (
@@ -161,7 +139,7 @@ export default function AdminDashboard() {
 
         <div className="rounded-lg bg-white shadow">
           <div className="p-6">
-            <BarChart data={dashboardData.ordersByStatus} title="Order Status Distribution" />
+            <BarChart data={statusChatData} title="Order Status Distribution" />
           </div>
         </div>
 
@@ -193,13 +171,13 @@ export default function AdminDashboard() {
                   {dashboardData.recentOrders?.map((order) => (
                     <tr key={order.id}>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        #{order.id}
+                        {order?.id}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {order.customer}
+                        {order?.User?.name}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {order.restaurant}
+                        {order?.Restaurant?.name}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span
@@ -217,7 +195,7 @@ export default function AdminDashboard() {
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        ${order.amount.toFixed(2)}
+                        Rs {order?.totalAmount}
                       </td>
                     </tr>
                   ))}

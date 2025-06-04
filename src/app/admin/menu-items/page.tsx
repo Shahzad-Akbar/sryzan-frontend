@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Restaurant } from '../restaurants/page';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
@@ -44,12 +44,7 @@ export default function MenuItemsPage() {
 
   const { toast } = useToast();
 
-  useEffect(() => {
-    fetchMenuItems();
-    fetchRestaurants();
-  }, []);
-
-  const fetchMenuItems = async () => {
+  const fetchMenuItems = useCallback(async () => {
     try {
       setLoading(true);
       const response = await fetch('/api/admin/menu-items?page=1&limit=100');
@@ -66,9 +61,9 @@ export default function MenuItemsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [toast]);
 
-  const fetchRestaurants = async () => {
+  const fetchRestaurants = useCallback(async () => {
     try {
       const response = await fetch('/api/admin/restaurants');
       const data = await response.json();
@@ -82,7 +77,12 @@ export default function MenuItemsPage() {
       });
       console.error(error);
     }
-  };
+  }, [toast]);
+
+  useEffect(() => {
+    fetchMenuItems();
+    fetchRestaurants();
+  }, [fetchMenuItems, fetchRestaurants]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

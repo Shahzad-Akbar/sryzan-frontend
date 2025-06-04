@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import { Star, Heart, ShoppingCart, ChevronRight } from 'lucide-react';
 import { CartPayload } from '@/types/cart';
@@ -23,12 +23,7 @@ export const PopularDishesSection = ({
   menuData: Dish[] ;
   handleAddToCart: (item: CartPayload) => void;
 }) => {
-  const [dishes, setDishes] = useState<Dish[]>([])
   const [favorites, setFavorites] = useState<Set<number>>(new Set());
-
-  useEffect(() => {
-   setDishes(menuData);
-  }, []);
 
   const toggleFavorite = (dishId: number) => {
     setFavorites((prev) => {
@@ -51,7 +46,7 @@ export const PopularDishesSection = ({
         </button>
       </div>
       <div className="grid grid-cols-3 gap-6">
-        {dishes.map((dish) => (
+        {menuData.map((dish) => (
           <div key={dish.id} className="bg-white p-4 rounded-2xl">
             <div className="relative">
               <Image
