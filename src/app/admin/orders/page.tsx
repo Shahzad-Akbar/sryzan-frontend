@@ -1,5 +1,6 @@
 'use client';
 
+import { Loader2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import {
   Table,
@@ -43,6 +44,7 @@ export default function OrdersPage() {
   }, [statusFilter, dateFilter]);
 
   const fetchOrders = async () => {
+    setLoading(true);
     try {
       const params = new URLSearchParams({
         page: '1',
@@ -74,6 +76,7 @@ export default function OrdersPage() {
   };
 
   const handleStatusUpdate = async (orderId: number, newStatus: string) => {
+    setLoading(true);
     try {
       const status = newStatus.toLowerCase() as Order['status'];
       const response = await fetch(`/api/admin/orders?orderId=${orderId}`, {
@@ -97,11 +100,15 @@ export default function OrdersPage() {
         description: 'Failed to update order status',
       });
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleDelete = async (id: number) => {
     if (!confirm('Are you sure you want to delete this order?')) return;
+
+    setLoading(true);
 
     try {
       const response = await fetch(`/api/admin/orders?orderId=${id}`, {
@@ -122,6 +129,8 @@ export default function OrdersPage() {
         description: 'Failed to delete order',
       });
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -175,68 +184,75 @@ export default function OrdersPage() {
         </div>
 
         <div className="border rounded-lg">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Order ID</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Restaurant ID</TableHead>
-                <TableHead>Total Amount</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {orders.map((order) => (
-                <TableRow key={order.id}>
-                  <TableCell>{order.id}</TableCell>
-                  <TableCell>{formatDate(order.createdAt)}</TableCell>
-                  <TableCell>{order.restaurantId}</TableCell>
-                  <TableCell>₹{order.totalAmount}</TableCell>
-                  <TableCell>
-                    <span
-                      className={`px-2 py-1 rounded-full text-sm ${getStatusColor(order.status)}`}
-                    >
-                      {order.status}
-                    </span>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex space-x-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => {
-                          setSelectedOrder(order);
-                          setIsDetailsDialogOpen(true);
-                        }}
-                      >
-                        Details
-                      </Button>
-                      <Select
-                        value={order.status}
-                        onValueChange={(value) => handleStatusUpdate(order.id, value)}
-                      >
-                        <SelectTrigger className="w-[130px]">
-                          <SelectValue placeholder="Update Status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="PENDING">Pending</SelectItem>
-                          <SelectItem value="CONFIRMED">Confirmed</SelectItem>
-                          <SelectItem value="PREPARING">Preparing</SelectItem>
-                          <SelectItem value="READY">Ready</SelectItem>
-                          <SelectItem value="DELIVERED">Delivered</SelectItem>
-                          <SelectItem value="CANCELLED">Cancelled</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <Button variant="outline" size="sm" onClick={() => handleDelete(order.id)}>
-                        Delete
-                      </Button>
-                    </div>
-                  </TableCell>
+          {loading ? (
+            <div className="flex justify-center items-center py-20">
+              <Loader2 className="animate-spin w-6 h-6 mr-2 text-gray-600" />
+              <span>Loading orders...</span>
+            </div>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Order ID</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Restaurant ID</TableHead>
+                  <TableHead>Total Amount</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {orders.map((order) => (
+                  <TableRow key={order.id}>
+                    <TableCell>{order.id}</TableCell>
+                    <TableCell>{formatDate(order.createdAt)}</TableCell>
+                    <TableCell>{order.restaurantId}</TableCell>
+                    <TableCell>₹{order.totalAmount}</TableCell>
+                    <TableCell>
+                      <span
+                        className={`px-2 py-1 rounded-full text-sm ${getStatusColor(order.status)}`}
+                      >
+                        {order.status}
+                      </span>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex space-x-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            setSelectedOrder(order);
+                            setIsDetailsDialogOpen(true);
+                          }}
+                        >
+                          Details
+                        </Button>
+                        <Select
+                          value={order.status}
+                          onValueChange={(value) => handleStatusUpdate(order.id, value)}
+                        >
+                          <SelectTrigger className="w-[130px]">
+                            <SelectValue placeholder="Update Status" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="PENDING">Pending</SelectItem>
+                            <SelectItem value="CONFIRMED">Confirmed</SelectItem>
+                            <SelectItem value="PREPARING">Preparing</SelectItem>
+                            <SelectItem value="READY">Ready</SelectItem>
+                            <SelectItem value="DELIVERED">Delivered</SelectItem>
+                            <SelectItem value="CANCELLED">Cancelled</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <Button variant="outline" size="sm" onClick={() => handleDelete(order.id)}>
+                          Delete
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </div>
 
         <Dialog open={isDetailsDialogOpen} onOpenChange={setIsDetailsDialogOpen}>

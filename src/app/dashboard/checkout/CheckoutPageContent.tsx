@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-export default function CheckoutPageContent({ orderTotal, items, walletBalance }) {
+export default function CheckoutPageContent({ orderTotal, walletBalance }) {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);

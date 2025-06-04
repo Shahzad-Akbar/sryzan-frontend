@@ -1,10 +1,9 @@
 'use client';
 
-import { useState, useEffect, SetStateAction } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Star, Heart, ShoppingCart, ChevronRight } from 'lucide-react';
-import { toast } from '@/components/ui/use-toast';
-import { CartPayload } from '../page';
+import { CartPayload } from '@/types/cart';
 
 export type Dish = {
   id: number;

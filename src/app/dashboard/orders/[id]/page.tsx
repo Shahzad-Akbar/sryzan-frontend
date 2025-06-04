@@ -1,20 +1,17 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useParams, useRouter } from 'next/navigation'
-import { Order, OrderStatus } from '@/types/order'
-import formatDate from '@/utils/format_date'
-import formatTime from '@/utils/format_time'
-import numberToString from '@/utils/number_to_string'
-import stringToNumber from '@/utils/string_to_number'
-import Loader from '@/components/ui/loader'
-import { Info } from 'lucide-react'
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { useParams} from 'next/navigation';
+import { Order, OrderStatus } from '@/types/order';
+import formatDate from '@/utils/format_date';
+import formatTime from '@/utils/format_time';
+import stringToNumber from '@/utils/string_to_number';
+import Loader from '@/components/ui/loader';
+import { Info } from 'lucide-react';
 
 export default function OrderDetailPage() {
   const params = useParams()
-  const router = useRouter()
   const orderId = params.id
   console.log(orderId)
   

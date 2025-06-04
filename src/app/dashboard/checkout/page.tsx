@@ -3,13 +3,11 @@
 import { useEffect, useState } from 'react';
 import CheckoutPageContent from './CheckoutPageContent';
 import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { CheckoutPageProps, CartItem } from '@/app/interfaces/checkout';
 
 export function CheckoutPage({ orderTotal, items, walletBalance = 1200 }: CheckoutPageProps) {
-  const router = useRouter();
 
   // State variables
   const [loading, setLoading] = useState(false);
@@ -25,11 +23,6 @@ export function CheckoutPage({ orderTotal, items, walletBalance = 1200 }: Checko
   // Handle place order
   const handlePlaceOrder = async () => {
     setLoading(true);
-    console.log('🚀 Placing order...');
-    console.log('Order Total:', orderTotal);
-    console.log('Service Charge:', serviceCharge);
-    console.log('Total With Service:', totalWithService);
-    console.log('Wallet Balance:', walletBalance);
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -251,7 +244,7 @@ export default function CheckoutPageWrapper() {
   const [loading, setLoading] = useState(true);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [orderTotal, setOrderTotal] = useState(0);
-  const [walletBalance, setWalletBalance] = useState(1200);
+  const walletBalance = 1200
 
   useEffect(() => {
     // Fetch cart items from API or use the ones passed in the URL

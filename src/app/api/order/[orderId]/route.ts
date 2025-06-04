@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
         const userId = cookies.get('userId')?.value; 
 
         // getting order id from route
-        const orderId = req.url
+        // const orderId = req.url
     
         if (!userId) {
           return NextResponse.json({ error: 'Invalid request data' }, { status: 400 });

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Order, OrderStatus } from '@/types/order';
+import { Order } from '@/types/order';
 import { ChevronLeft, ShoppingCart } from 'lucide-react';
 import Loader from '@/components/ui/loader';
 import OrderCard from './components/OrderCard';

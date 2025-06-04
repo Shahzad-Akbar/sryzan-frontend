@@ -16,10 +16,10 @@ export async function GET(req: NextRequest) {
         const response = await apiClient.get(`${API_ENDPOINTS.GET_ORDERS}/${userId}`);
         console.log('Fetched orders:', response.data); // Log the fetched orders
 
-        const orderId = response.data[0].id;
+        // const orderId = response.data[0].id;
 
         // calling invoice generation api from backend
-        const voiceResponse = await apiClient.get(`${API_ENDPOINTS.GENERATE_INVOICE}/${orderId}/invoice`);
+        // const voiceResponse = await apiClient.get(`${API_ENDPOINTS.GENERATE_INVOICE}/${orderId}/invoice`);
         return NextResponse.json(response.data);
       } catch (error) {
         console.error('Error fetching orders:', error);

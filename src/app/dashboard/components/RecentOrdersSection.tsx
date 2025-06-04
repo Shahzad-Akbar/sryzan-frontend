@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useEffect, SetStateAction } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Heart, ChevronRight, ShoppingCart } from 'lucide-react';
-import { CartPayload } from '../page';
 import { Dish } from './PopularDishesSection';
+import { CartPayload } from '@/types/cart';
 
 interface Orders {
   id: number;
@@ -16,7 +16,6 @@ interface Orders {
   restaurantId: number;
   updatedAt: string;
 }
-
 
 export const RecentOrdersSection = ({
   menuData,
