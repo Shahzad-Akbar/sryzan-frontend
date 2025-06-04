@@ -1,3 +1,4 @@
+import { url } from 'inspector';
 import {
   LayoutDashboard,
   UtensilsCrossed,
@@ -11,6 +12,7 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface LeftSidebarProps {
   isOpen: boolean;
@@ -22,12 +24,17 @@ const menuItems = [
   { icon: <UtensilsCrossed size={24} />, label: 'Food Order' },
   { icon: <Heart size={24} />, label: 'Favorite' },
   { icon: <MessageSquare size={24} />, label: 'Message' },
-  { icon: <Clock size={24} />, label: 'Order History' },
+  { icon: <Clock size={24} />, label: 'Order History', url: '/dashboard/orders' },
   { icon: <Receipt size={24} />, label: 'Bills' },
   { icon: <Settings size={24} />, label: 'Setting' },
 ];
 
 export function LeftSidebar({ isOpen, onToggle }: LeftSidebarProps) {
+  const router = useRouter();
+
+  const handleNavigation = (url: string) => {
+    router.push(url);
+  }
   return (
     <div className="relative">
       <div
@@ -43,6 +50,7 @@ export function LeftSidebar({ isOpen, onToggle }: LeftSidebarProps) {
           {menuItems.map((item, index) => (
             <button
               key={index}
+              onClick={() => handleNavigation(item?.url || '/')}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all
                 ${item.active ? 'bg-primary-2 text-white' : 'text-neutral/70 hover:bg-gray-50'}
                 ${!isOpen && 'justify-center px-2'}
